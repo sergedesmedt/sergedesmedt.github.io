@@ -1,12 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta name="viewport" content="width=device-width">
 	<title>Serge Desmedt's pages</title>
+	<style type="text/css">
+#fillX
+{
+    background:red;
+    width:100%;
+    opacity:0.5;
+}
+
+#childXFill
+{
+    background:blue;
+    width:100%;
+    padding:10px;
+    opacity:0.5;
+}
+	</style>
 	<script type="text/javascript" src="script/jquery-3.1.1.min.js" /></script>
 </head>
 <body>
 <h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
+	<div id="fillX">
+		<div id="childXFill">
+		</div>
+	</div>
 <script>
 	window.alert($(document).width());
 </script>
