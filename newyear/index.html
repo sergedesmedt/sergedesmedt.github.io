@@ -17,6 +17,7 @@
         </style>
 		<script type="text/javascript" src="script/raphael.min.js" /></script>
 		<script type="text/javascript" src="script/jquery-3.1.1.min.js" /></script>
+		<script type="text/javascript" src="script/tamtamfireworks.js" /></script>
     </head>
     <body id="theBody">
 		<div >
@@ -31,7 +32,11 @@
 	<!--Script at the bottom of the page-->
     <script>
 	
-		var bodyMargin = parseFloat( $("#theBody").css('margin'));
+		var bodyMargin = 0;
+		var bodyMarginCss = $("#theBody").css('margin');
+		if (bodyMarginCss) {
+			var bodyMargin = parseFloat(bodyMarginCss);
+		}
 		var longestTekstOnThisPage = "Nog 99 dagen 99:99:99";
 		var longestTextWidth = $("#textCalculator").html(longestTekstOnThisPage).width();
 		var documentWidth = $(document).width() - 2 * bodyMargin;
@@ -46,6 +51,7 @@
 		var textHeight = fontHeight + "px";
 
 
+		var debug = 0;
 		var pathStyle = {
 			"opacity":0
 		}
@@ -53,7 +59,7 @@
 		var now = new Date();
 		//var newYear = new Date(2016, 11, 17, 21, 47, 45);
 		//var newYear = new Date(2017, 0, 1, 0, 0, 0);
-		var newYear = new Date(now.getTime() + 1000 * 15);
+		var newYear = new Date(now.getTime() + 1000 * 10);
 
 		function pad2(num) {
 			var s = "0" + num;
@@ -163,7 +169,9 @@
 
 
 
-        var paper = Raphael("canvas", '100%', 500);  
+		var paper = Raphael("canvas", '100%', 1000);
+		RegisterRaphael(paper);
+
         var offsetWidth = $("#canvas").width();
         var textPositionY = 50;
         var textPadding = 5;
@@ -252,8 +260,8 @@
 
 			paper.getById('trojkaOuterCircle').remove();
 
-			var x = 371.07144;
-			var y = 512.4693;
+			var x = 371.07144; // centerpoint of trojka logo circle
+			var y = 512.4693;  // centerpoint of trojka logo circle
 			var x1 = x * matrix.a + y * matrix.b + matrix.e;
 			var y1 = x * matrix.c + y * matrix.d + matrix.f;
 			var c1 = paper.ellipse(x1, y1, 250 * scale, 250 * scale).attr({ fill: "none", "stroke": "#000000", "stroke-width": scale * strokeWidth, "stroke-linecap": "round", "stroke-linejoin": "round" });
@@ -267,22 +275,29 @@
 				finalCountDownIconArray.push(c1.clone());
 				finalCountDownTextArray.push(t1.clone().attr({ text: finalCountDown-i }));
 			}
+
+
 			var unitOffset = documentWidth / (finalCountDown + 1);
+			var startOffset = (documentWidth / 2) - (unitOffset * (finalCountDown - 1)) / 2;
 			for (i = 0; i < finalCountDown; i++) {
-				finalCountDownIconArray[i].animate({ "cx": (i + 0.5) * unitOffset + logoSize / 2 }, 200);
-				finalCountDownTextArray[i].animate({ "x": (i + 0.5) * unitOffset + logoSize / 2, fill: '#000000' }, 200);
+				var itemOffset = startOffset + i * unitOffset;
+				finalCountDownIconArray[i].animate({ "cx": itemOffset }, 200);
+				finalCountDownTextArray[i].animate({ "x": itemOffset, fill: '#000000' }, 200);
+				//finalCountDownIconArray[i].animate({ "cx": (i + 0.5) * unitOffset + logoSize / 2 }, 200);
+				//finalCountDownTextArray[i].animate({ "x": (i + 0.5) * unitOffset + logoSize / 2, fill: '#000000' }, 200);
 			}
 			
 			secondsCountDown--;
 
-			finalCountDownTimerId = window.setInterval(finalCountDownTransition, 1000);
+			finalCountDownTimerId = window.setInterval(function () { finalCountDownTransition(unitOffset); }, 1000);
 		}
 
 		var finalCountDownTimerId;
-		var finalCountDownTransition = function () {
+		var finalCountDownTransition = function (unitOffset) {
 			if (finalCountDownIconArray.length == 0)
 			{
 				window.clearInterval(finalCountDownTimerId);
+				startLine1();
 				return;
 			}
 
@@ -290,10 +305,14 @@
 			var tlast = finalCountDownTextArray.shift();
 			clast.remove();
 			tlast.remove();
-			var unitOffset = documentWidth / (finalCountDownIconArray.length);
+			//var unitOffset = documentWidth / (finalCountDownIconArray.length);
+			var startOffset = (documentWidth / 2) - (unitOffset * (finalCountDownIconArray.length - 1)) / 2;
 			for (i = 0; i < finalCountDownIconArray.length; i++) {
-				finalCountDownIconArray[i].animate({ "cx": (i + 0.5) * unitOffset + logoSize / 2 }, 200);
-				finalCountDownTextArray[i].animate({ "x": (i + 0.5) * unitOffset + logoSize / 2, fill: '#000000' }, 200);
+				var itemOffset = startOffset + i * unitOffset;
+				finalCountDownIconArray[i].animate({ "cx": itemOffset }, 200);
+				finalCountDownTextArray[i].animate({ "x": itemOffset, fill: '#000000' }, 200);
+				//finalCountDownIconArray[i].animate({ "cx": (i + 0.5) * unitOffset + logoSize / 2 }, 200);
+				//finalCountDownTextArray[i].animate({ "x": (i + 0.5) * unitOffset + logoSize / 2, fill: '#000000' }, 200);
 			}
 
 		}
@@ -314,6 +333,261 @@
 		t13.animate(fadeInOutAnimation.delay(step * cycleDuration)); step++;
 		t24.animate(fadeInOutAnimation.delay(step * cycleDuration)); step++;
 		t14.animate(fadeInOutAndStartCountDownAnimation.delay(step * cycleDuration)); step++;
+
+
+
+
+		var textRasterSize = 25;
+		var textSpacing = textRasterSize;
+		var baseLine = 500;
+		var minHeight = 300;
+		var maxHeight = 400;
+
+
+		var startLine1 = function () {
+
+			var textStartPosXHappy = (documentWidth / 2) - (((15 * textRasterSize) + (4 * textSpacing)) / 2);
+			var textStartPosYHappy = 600;
+
+			var targetPathLetterHString =
+				"M " + (textStartPosXHappy + 0 * textRasterSize) + "," + (textStartPosYHappy + 0 * textRasterSize) +
+				"L " + (textStartPosXHappy + 0 * textRasterSize) + "," + (textStartPosYHappy + 5 * textRasterSize) +
+				"M " + (textStartPosXHappy + 0 * textRasterSize) + "," + (textStartPosYHappy + 2.5 * textRasterSize) +
+				"L " + (textStartPosXHappy + 3 * textRasterSize) + "," + (textStartPosYHappy + 2.5 * textRasterSize) +
+				"M " + (textStartPosXHappy + 3 * textRasterSize) + "," + (textStartPosYHappy + 0 * textRasterSize) +
+				"L " + (textStartPosXHappy + 3 * textRasterSize) + "," + (textStartPosYHappy + 5 * textRasterSize) +
+				"";
+			var targetPathH = paper.path(targetPathLetterHString).attr(pathStyle);
+
+			textStartPosXHappy = textStartPosXHappy + 3 * textRasterSize + textSpacing;
+			var targetPathLetteraString =
+				"M " + (textStartPosXHappy + 3 * textRasterSize) + "," + (textStartPosYHappy + 2 * textRasterSize) +
+				"L " + (textStartPosXHappy + 3 * textRasterSize) + "," + (textStartPosYHappy + 5 * textRasterSize) +
+				"L " + (textStartPosXHappy + 1 * textRasterSize) + "," + (textStartPosYHappy + 5 * textRasterSize) +
+				"L " + (textStartPosXHappy + 0 * textRasterSize) + "," + (textStartPosYHappy + 4 * textRasterSize) +
+				"L " + (textStartPosXHappy + 0 * textRasterSize) + "," + (textStartPosYHappy + 3 * textRasterSize) +
+				"L " + (textStartPosXHappy + 1 * textRasterSize) + "," + (textStartPosYHappy + 2 * textRasterSize) +
+				"L " + (textStartPosXHappy + 2 * textRasterSize) + "," + (textStartPosYHappy + 2 * textRasterSize) +
+				"L " + (textStartPosXHappy + 3 * textRasterSize) + "," + (textStartPosYHappy + 3 * textRasterSize) +
+				"";
+			var targetPatha = paper.path(targetPathLetteraString).attr(pathStyle);
+
+			textStartPosXHappy = textStartPosXHappy + 3 * textRasterSize + textSpacing;
+			var targetPathLetterpString1 =
+				"M " + (textStartPosXHappy + 0 * textRasterSize) + "," + (textStartPosYHappy + 2 * textRasterSize) +
+				"L " + (textStartPosXHappy + 0 * textRasterSize) + "," + (textStartPosYHappy + 7 * textRasterSize) +
+				"M " + (textStartPosXHappy + 0 * textRasterSize) + "," + (textStartPosYHappy + 3 * textRasterSize) +
+				"L " + (textStartPosXHappy + 1 * textRasterSize) + "," + (textStartPosYHappy + 2 * textRasterSize) +
+				"L " + (textStartPosXHappy + 2 * textRasterSize) + "," + (textStartPosYHappy + 2 * textRasterSize) +
+				"L " + (textStartPosXHappy + 3 * textRasterSize) + "," + (textStartPosYHappy + 3 * textRasterSize) +
+				"L " + (textStartPosXHappy + 3 * textRasterSize) + "," + (textStartPosYHappy + 4 * textRasterSize) +
+				"L " + (textStartPosXHappy + 2 * textRasterSize) + "," + (textStartPosYHappy + 5 * textRasterSize) +
+				"L " + (textStartPosXHappy + 1 * textRasterSize) + "," + (textStartPosYHappy + 5 * textRasterSize) +
+				"L " + (textStartPosXHappy + 0 * textRasterSize) + "," + (textStartPosYHappy + 4 * textRasterSize) +
+				"";
+			var targetPathp1 = paper.path(targetPathLetterpString1).attr(pathStyle);
+
+			textStartPosXHappy = textStartPosXHappy + 3 * textRasterSize + textSpacing;
+			var targetPathLetterpString2 =
+				"M " + (textStartPosXHappy + 0 * textRasterSize) + "," + (textStartPosYHappy + 2 * textRasterSize) +
+				"L " + (textStartPosXHappy + 0 * textRasterSize) + "," + (textStartPosYHappy + 7 * textRasterSize) +
+				"M " + (textStartPosXHappy + 0 * textRasterSize) + "," + (textStartPosYHappy + 3 * textRasterSize) +
+				"L " + (textStartPosXHappy + 1 * textRasterSize) + "," + (textStartPosYHappy + 2 * textRasterSize) +
+				"L " + (textStartPosXHappy + 2 * textRasterSize) + "," + (textStartPosYHappy + 2 * textRasterSize) +
+				"L " + (textStartPosXHappy + 3 * textRasterSize) + "," + (textStartPosYHappy + 3 * textRasterSize) +
+				"L " + (textStartPosXHappy + 3 * textRasterSize) + "," + (textStartPosYHappy + 4 * textRasterSize) +
+				"L " + (textStartPosXHappy + 2 * textRasterSize) + "," + (textStartPosYHappy + 5 * textRasterSize) +
+				"L " + (textStartPosXHappy + 1 * textRasterSize) + "," + (textStartPosYHappy + 5 * textRasterSize) +
+				"L " + (textStartPosXHappy + 0 * textRasterSize) + "," + (textStartPosYHappy + 4 * textRasterSize) +
+				"";
+			var targetPathp2 = paper.path(targetPathLetterpString2).attr(pathStyle);
+
+			textStartPosXHappy = textStartPosXHappy + 3 * textRasterSize + textSpacing;
+			var targetPathLetteryString =
+				"M " + (textStartPosXHappy + 0 * textRasterSize) + "," + (textStartPosYHappy + 2 * textRasterSize) +
+				"L " + (textStartPosXHappy + 0 * textRasterSize) + "," + (textStartPosYHappy + 4 * textRasterSize) +
+				"L " + (textStartPosXHappy + 1 * textRasterSize) + "," + (textStartPosYHappy + 5 * textRasterSize) +
+				"L " + (textStartPosXHappy + 2 * textRasterSize) + "," + (textStartPosYHappy + 5 * textRasterSize) +
+				"L " + (textStartPosXHappy + 3 * textRasterSize) + "," + (textStartPosYHappy + 4 * textRasterSize) +
+				"M " + (textStartPosXHappy + 3 * textRasterSize) + "," + (textStartPosYHappy + 2 * textRasterSize) +
+				"L " + (textStartPosXHappy + 3 * textRasterSize) + "," + (textStartPosYHappy + 6 * textRasterSize) +
+				"L " + (textStartPosXHappy + 2 * textRasterSize) + "," + (textStartPosYHappy + 7 * textRasterSize) +
+				"L " + (textStartPosXHappy + 0 * textRasterSize) + "," + (textStartPosYHappy + 7 * textRasterSize) +
+				"";
+			var targetPathy = paper.path(targetPathLetteryString).attr(pathStyle);
+
+
+
+
+
+			var line1RocketMargin = 150;
+			var line1RocketSpacing = (documentWidth - 2 * line1RocketMargin) / ("Happy".length - 1);
+			var line1RocketOffset = line1RocketMargin;
+			var line1LetterEndedCount = 0;
+
+			var line1LetterEnded = function () {
+				line1LetterEndedCount++;
+				console.log("Animating H ended. " + line1LetterEndedCount + " of " + "Happy".length);
+				if (line1LetterEndedCount == "Happy".length) {
+					console.log("start line 2");
+					startLine2();
+				}
+			};
+
+			var rocketH = new Rocket(line1RocketOffset + 0 * line1RocketSpacing, baseLine, {
+				ShrapnelCount: 25,
+				RocketRadius: 10, ShardRadius: 5, RocketExpansionRadius: 15, ExplosionExpansionRadius: 30, ExplosionShrapnelExpansionRadius: 70,
+				ShootDuration: 700, RocketExpansionDuration: 200, ExplosionExpansionDuration: 300, ExplosionShrapnelExpansionDuration: 700,
+				PathShrapnelLifetime: 500,
+				NonPathShrapnelLifetime: 300,
+				ShootingHeight: Math.floor(Math.random() * (maxHeight - 300 + 1)) + 300,
+				AnimationEndedAction: line1LetterEnded
+			}, debug);
+			var rocketa = new Rocket(line1RocketOffset + 1 * line1RocketSpacing, baseLine, {
+				ShrapnelCount: 25,
+				RocketRadius: 10, ShardRadius: 5, RocketExpansionRadius: 15, ExplosionExpansionRadius: 30, ExplosionShrapnelExpansionRadius: 70,
+				ShootDuration: 900, RocketExpansionDuration: 200, ExplosionExpansionDuration: 300, ExplosionShrapnelExpansionDuration: 700,
+				PathShrapnelLifetime: 500,
+				NonPathShrapnelLifetime: 300,
+				ShootingHeight: Math.floor(Math.random() * (maxHeight - 300 + 1)) + 300,
+				AnimationEndedAction: line1LetterEnded
+			}, debug);
+			var rocketp1 = new Rocket(line1RocketOffset + 2 * line1RocketSpacing, baseLine, {
+				ShrapnelCount: 25,
+				RocketRadius: 10, ShardRadius: 5, RocketExpansionRadius: 15, ExplosionExpansionRadius: 30, ExplosionShrapnelExpansionRadius: 70,
+				ShootDuration: 750, RocketExpansionDuration: 200, ExplosionExpansionDuration: 300, ExplosionShrapnelExpansionDuration: 700,
+				PathShrapnelLifetime: 500,
+				NonPathShrapnelLifetime: 300,
+				ShootingHeight: Math.floor(Math.random() * (maxHeight - 300 + 1)) + 300,
+				AnimationEndedAction: line1LetterEnded
+			}, debug);
+			var rocketp2 = new Rocket(line1RocketOffset + 3 * line1RocketSpacing, baseLine, {
+				ShrapnelCount: 25,
+				RocketRadius: 10, ShardRadius: 5, RocketExpansionRadius: 15, ExplosionExpansionRadius: 30, ExplosionShrapnelExpansionRadius: 70,
+				ShootDuration: 800, RocketExpansionDuration: 200, ExplosionExpansionDuration: 300, ExplosionShrapnelExpansionDuration: 700,
+				PathShrapnelLifetime: 500,
+				NonPathShrapnelLifetime: 300,
+				ShootingHeight: Math.floor(Math.random() * (maxHeight - 300 + 1)) + 300,
+				AnimationEndedAction: line1LetterEnded
+			}, debug);
+			var rockety = new Rocket(line1RocketOffset + 4 * line1RocketSpacing, baseLine, {
+				ShrapnelCount: 25,
+				RocketRadius: 10, ShardRadius: 5, RocketExpansionRadius: 15, ExplosionExpansionRadius: 30, ExplosionShrapnelExpansionRadius: 70,
+				ShootDuration: 600, RocketExpansionDuration: 200, ExplosionExpansionDuration: 300, ExplosionShrapnelExpansionDuration: 700,
+				PathShrapnelLifetime: 500,
+				NonPathShrapnelLifetime: 300,
+				ShootingHeight: Math.floor(Math.random() * (maxHeight - 300 + 1)) + 300,
+				AnimationEndedAction: line1LetterEnded
+			}, debug);
+
+			rocketH.explodeToPathSection(50, targetPathH, 0, 1, 0, 3 * Math.PI / 2);
+			rocketa.explodeToPathSection(200, targetPatha, 0, 1, 0, Math.PI);
+			rocketp1.explodeToPathSection(150, targetPathp1, 0, 1, 0, Math.PI);
+			rocketp2.explodeToPathSection(0, targetPathp2, 0, 1, 0, Math.PI);
+			rockety.explodeToPathSection(100, targetPathy, 0, 1, Math.PI / 2, 4 * Math.PI / 2);
+
+
+		}
+
+		var startLine2 = function () {
+
+			var textStartPosX2017 = (documentWidth / 2) - (((11 * textRasterSize) + (3 * textSpacing)) / 2);
+			var textStartPosY2017 = 600;
+
+			var targetPathNumberTwoString =
+				"M " + (textStartPosX2017 + 0 * textRasterSize) + "," + (textStartPosY2017 + 1 * textRasterSize) +
+				"L " + (textStartPosX2017 + 1 * textRasterSize) + "," + (textStartPosY2017 + 0 * textRasterSize) +
+				"L " + (textStartPosX2017 + 2 * textRasterSize) + "," + (textStartPosY2017 + 0 * textRasterSize) +
+				"L " + (textStartPosX2017 + 3 * textRasterSize) + "," + (textStartPosY2017 + 1 * textRasterSize) +
+				"L " + (textStartPosX2017 + 3 * textRasterSize) + "," + (textStartPosY2017 + 2 * textRasterSize) +
+				"L " + (textStartPosX2017 + 0 * textRasterSize) + "," + (textStartPosY2017 + 5 * textRasterSize) +
+				"L " + (textStartPosX2017 + 3 * textRasterSize) + "," + (textStartPosY2017 + 5 * textRasterSize) +
+			"";
+
+			textStartPosX2017 = textStartPosX2017 + 3 * textRasterSize + textSpacing;
+			var targetPathNumberZeroString =
+				"M " + (textStartPosX2017 + 0 * textRasterSize) + "," + (textStartPosY2017 + 1 * textRasterSize) +
+				"L " + (textStartPosX2017 + 1 * textRasterSize) + "," + (textStartPosY2017 + 0 * textRasterSize) +
+				"L " + (textStartPosX2017 + 2 * textRasterSize) + "," + (textStartPosY2017 + 0 * textRasterSize) +
+				"L " + (textStartPosX2017 + 3 * textRasterSize) + "," + (textStartPosY2017 + 1 * textRasterSize) +
+				"L " + (textStartPosX2017 + 3 * textRasterSize) + "," + (textStartPosY2017 + 4 * textRasterSize) +
+				"L " + (textStartPosX2017 + 2 * textRasterSize) + "," + (textStartPosY2017 + 5 * textRasterSize) +
+				"L " + (textStartPosX2017 + 1 * textRasterSize) + "," + (textStartPosY2017 + 5 * textRasterSize) +
+				"L " + (textStartPosX2017 + 0 * textRasterSize) + "," + (textStartPosY2017 + 4 * textRasterSize) +
+				"L " + (textStartPosX2017 + 0 * textRasterSize) + "," + (textStartPosY2017 + 1 * textRasterSize) +
+			"";
+
+			textStartPosX2017 = textStartPosX2017 + 3 * textRasterSize + textSpacing;
+			var targetPathNumberOneString =
+				"M " + (textStartPosX2017 + 0 * textRasterSize) + "," + (textStartPosY2017 + 1 * textRasterSize) +
+				"L " + (textStartPosX2017 + 1 * textRasterSize) + "," + (textStartPosY2017 + 0 * textRasterSize) +
+				"L " + (textStartPosX2017 + 1 * textRasterSize) + "," + (textStartPosY2017 + 5 * textRasterSize) +
+				"L " + (textStartPosX2017 + 0 * textRasterSize) + "," + (textStartPosY2017 + 5 * textRasterSize) +
+				"L " + (textStartPosX2017 + 2 * textRasterSize) + "," + (textStartPosY2017 + 5 * textRasterSize) +
+			"";
+
+			textStartPosX2017 = textStartPosX2017 + 2 * textRasterSize + textSpacing;
+			var targetPathNumberSevenString =
+				"M " + (textStartPosX2017 + 0 * textRasterSize) + "," + (textStartPosY2017 + 1 * textRasterSize) +
+				"L " + (textStartPosX2017 + 0 * textRasterSize) + "," + (textStartPosY2017 + 0 * textRasterSize) +
+				"L " + (textStartPosX2017 + 3 * textRasterSize) + "," + (textStartPosY2017 + 0 * textRasterSize) +
+				"L " + (textStartPosX2017 + 3 * textRasterSize) + "," + (textStartPosY2017 + 1 * textRasterSize) +
+				"L " + (textStartPosX2017 + 0 * textRasterSize) + "," + (textStartPosY2017 + 5 * textRasterSize) +
+				"";
+
+			var targetPath2 = paper.path(targetPathNumberTwoString).attr(pathStyle);
+			var targetPath0 = paper.path(targetPathNumberZeroString).attr(pathStyle);
+			var targetPath1 = paper.path(targetPathNumberOneString).attr(pathStyle);
+			var targetPath7 = paper.path(targetPathNumberSevenString).attr(pathStyle);
+
+			var line2RocketMargin = 150;
+			var line2RocketSpacing = (documentWidth - 2 * line2RocketMargin) / ("2017".length - 1);
+			var line2RocketOffset = line2RocketMargin;
+
+			var rocket2 = new Rocket(line2RocketOffset + 0 * line2RocketSpacing, baseLine, {
+				ShrapnelCount: 25,
+				RocketRadius: 10, ShardRadius: 5, RocketExpansionRadius: 15, ExplosionExpansionRadius: 30, ExplosionShrapnelExpansionRadius: 80,
+				ShootDuration: 700, RocketExpansionDuration: 200, ExplosionExpansionDuration: 300, ExplosionShrapnelExpansionDuration: 700,
+				PathShrapnelLifetime: 500,
+				NonPathShrapnelLifetime: 300,
+				ShootingHeight: Math.floor(Math.random() * (maxHeight - 300 + 1)) + 300,
+				AnimationEndedAction: function () { }
+			}, debug);
+			var rocket0 = new Rocket(line2RocketOffset + 1 * line2RocketSpacing, baseLine, {
+				ShrapnelCount: 25,
+				RocketRadius: 10, ShardRadius: 5, RocketExpansionRadius: 15, ExplosionExpansionRadius: 30, ExplosionShrapnelExpansionRadius: 80,
+				ShootDuration: 700, RocketExpansionDuration: 200, ExplosionExpansionDuration: 300, ExplosionShrapnelExpansionDuration: 700,
+				PathShrapnelLifetime: 500,
+				NonPathShrapnelLifetime: 300,
+				ShootingHeight: Math.floor(Math.random() * (maxHeight - 300 + 1)) + 300,
+				AnimationEndedAction: function () { }
+			}, debug);
+			var rocket1 = new Rocket(line2RocketOffset + 2 * line2RocketSpacing, baseLine, {
+				ShrapnelCount: 25,
+				RocketRadius: 10, ShardRadius: 5, RocketExpansionRadius: 15, ExplosionExpansionRadius: 30, ExplosionShrapnelExpansionRadius: 80,
+				ShootDuration: 700, RocketExpansionDuration: 200, ExplosionExpansionDuration: 300, ExplosionShrapnelExpansionDuration: 700,
+				PathShrapnelLifetime: 500,
+				NonPathShrapnelLifetime: 300,
+				ShootingHeight: Math.floor(Math.random() * (maxHeight - 300 + 1)) + 300,
+				AnimationEndedAction: function () { }
+			}, debug);
+			var rocket7 = new Rocket(line2RocketOffset + 3 * line2RocketSpacing, baseLine, {
+				ShrapnelCount: 25,
+				RocketRadius: 10, ShardRadius: 5, RocketExpansionRadius: 15, ExplosionExpansionRadius: 30, ExplosionShrapnelExpansionRadius: 80,
+				ShootDuration: 700, RocketExpansionDuration: 200, ExplosionExpansionDuration: 300, ExplosionShrapnelExpansionDuration: 700,
+				PathShrapnelLifetime: 500,
+				NonPathShrapnelLifetime: 300,
+				ShootingHeight: Math.floor(Math.random() * (maxHeight - 300 + 1)) + 300,
+				AnimationEndedAction: function () { }
+			}, debug);
+
+
+			rocket2.explodeToPathSection(0, targetPath2, 0, 1, 0, Math.PI);
+			rocket0.explodeToPathSection(100, targetPath0, 0, 1, 0, Math.PI);
+			rocket1.explodeToPathSection(30, targetPath1, 0, 1, 0, Math.PI);
+			rocket7.explodeToPathSection(65, targetPath7, 0, 1, 0, Math.PI);
+
+		}
 
 
     </script>
