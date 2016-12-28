@@ -305,6 +305,7 @@ function Rocket(xPos, yPos, configuration, debug, debugText) {
 
 
         explosionSet.forEach(function (e) {
+            debugTextSpan.html("explosionSet.forEach[" + explosionIndex + "]");
             var elem = e;
             var shrapnelAngle = explosionIndex * angleSpacing;
             var shrapnelRadius = explosionShrapnelExpansionRadius;
@@ -374,6 +375,8 @@ function Rocket(xPos, yPos, configuration, debug, debugText) {
                 guide: path,
                 along: 0
             });
+
+            debugTextSpan.html("explosionSet.forEach[" + explosionIndex + "] > animate elem");
 
             elem.animate({
                 along: pathSection,
