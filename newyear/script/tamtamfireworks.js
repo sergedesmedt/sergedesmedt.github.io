@@ -22,9 +22,9 @@ function RegisterRaphael(raphaelPaper) {
 
 function Rocket(xPos, yPos, configuration, debug, debugText) {
     var pathOpacity = debug;
-    //var debugTextSpan = debugText;
+    var debugTextSpan = debugText;
 
-    //debugText.html("creation");
+    debugTextSpan.html("creation");
 
     var rocketRadius = 5;
     var shardRadius = 5;
