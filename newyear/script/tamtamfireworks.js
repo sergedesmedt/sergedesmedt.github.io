@@ -22,7 +22,7 @@ function RegisterRaphael(raphaelPaper) {
 
 function Rocket(xPos, yPos, configuration, debug, debugText) {
     var pathOpacity = debug;
-    var debugTextSpan = debugText;
+    //var debugTextSpan = debugText;
 
     //debugText.html("creation");
 
