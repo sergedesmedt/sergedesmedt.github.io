@@ -15,9 +15,9 @@
 				white-space: nowrap;
 			}
         </style>
-		<script type="text/javascript" src="script/raphael.min.js" /></script>
-		<script type="text/javascript" src="script/jquery-3.1.1.min.js" /></script>
-		<script type="text/javascript" src="script/tamtamfireworks.js" /></script>
+		<script type="text/javascript" src="script/raphael.min.js" ></script>
+		<script type="text/javascript" src="script/jquery-3.1.1.min.js" ></script>
+		<script type="text/javascript" src="script/tamtamfireworks.js" ></script>
     </head>
     <body id="theBody">
 		<div >
@@ -29,7 +29,6 @@
 		
         <div id="canvas"></div>
 
-	<!--Script at the bottom of the page-->
     <script>
 	
 		var bodyMargin = 0;
@@ -59,7 +58,7 @@
 		var now = new Date();
 		//var newYear = new Date(2016, 11, 17, 21, 47, 45);
 		//var newYear = new Date(2017, 0, 1, 0, 0, 0);
-		var newYear = new Date(now.getTime() + 1000 * 10);
+		var newYear = new Date(now.getTime() + 1000 * 6);
 
 		function pad2(num) {
 			var s = "0" + num;
@@ -436,55 +435,55 @@
 
 			var rocketH = new Rocket(line1RocketOffset + 0 * line1RocketSpacing, baseLine, {
 				ShrapnelCount: 25,
-				RocketRadius: 10, ShardRadius: 5, RocketExpansionRadius: 15, ExplosionExpansionRadius: 30, ExplosionShrapnelExpansionRadius: 70,
-				ShootDuration: 700, RocketExpansionDuration: 200, ExplosionExpansionDuration: 300, ExplosionShrapnelExpansionDuration: 700,
+				RocketRadius: 7, ShardRadius: 5, RocketExpansionRadius: 15, ExplosionExpansionRadius: 30, ExplosionShrapnelExpansionRadius: 70,
+				ShootDuration: 700, RocketExpansionDuration: 200, ExplosionExpansionDuration: 300, ExplosionShrapnelExpansionDuration: 500,
 				PathShrapnelLifetime: 500,
-				NonPathShrapnelLifetime: 300,
+				NonPathShrapnelLifetime: 100,
 				ShootingHeight: Math.floor(Math.random() * (maxHeight - 300 + 1)) + 300,
 				AnimationEndedAction: line1LetterEnded
 			}, debug);
-			var rocketa = new Rocket(line1RocketOffset + 1 * line1RocketSpacing, baseLine, {
-				ShrapnelCount: 25,
-				RocketRadius: 10, ShardRadius: 5, RocketExpansionRadius: 15, ExplosionExpansionRadius: 30, ExplosionShrapnelExpansionRadius: 70,
-				ShootDuration: 900, RocketExpansionDuration: 200, ExplosionExpansionDuration: 300, ExplosionShrapnelExpansionDuration: 700,
-				PathShrapnelLifetime: 500,
-				NonPathShrapnelLifetime: 300,
-				ShootingHeight: Math.floor(Math.random() * (maxHeight - 300 + 1)) + 300,
-				AnimationEndedAction: line1LetterEnded
-			}, debug);
-			var rocketp1 = new Rocket(line1RocketOffset + 2 * line1RocketSpacing, baseLine, {
-				ShrapnelCount: 25,
-				RocketRadius: 10, ShardRadius: 5, RocketExpansionRadius: 15, ExplosionExpansionRadius: 30, ExplosionShrapnelExpansionRadius: 70,
-				ShootDuration: 750, RocketExpansionDuration: 200, ExplosionExpansionDuration: 300, ExplosionShrapnelExpansionDuration: 700,
-				PathShrapnelLifetime: 500,
-				NonPathShrapnelLifetime: 300,
-				ShootingHeight: Math.floor(Math.random() * (maxHeight - 300 + 1)) + 300,
-				AnimationEndedAction: line1LetterEnded
-			}, debug);
-			var rocketp2 = new Rocket(line1RocketOffset + 3 * line1RocketSpacing, baseLine, {
-				ShrapnelCount: 25,
-				RocketRadius: 10, ShardRadius: 5, RocketExpansionRadius: 15, ExplosionExpansionRadius: 30, ExplosionShrapnelExpansionRadius: 70,
-				ShootDuration: 800, RocketExpansionDuration: 200, ExplosionExpansionDuration: 300, ExplosionShrapnelExpansionDuration: 700,
-				PathShrapnelLifetime: 500,
-				NonPathShrapnelLifetime: 300,
-				ShootingHeight: Math.floor(Math.random() * (maxHeight - 300 + 1)) + 300,
-				AnimationEndedAction: line1LetterEnded
-			}, debug);
-			var rockety = new Rocket(line1RocketOffset + 4 * line1RocketSpacing, baseLine, {
-				ShrapnelCount: 25,
-				RocketRadius: 10, ShardRadius: 5, RocketExpansionRadius: 15, ExplosionExpansionRadius: 30, ExplosionShrapnelExpansionRadius: 70,
-				ShootDuration: 600, RocketExpansionDuration: 200, ExplosionExpansionDuration: 300, ExplosionShrapnelExpansionDuration: 700,
-				PathShrapnelLifetime: 500,
-				NonPathShrapnelLifetime: 300,
-				ShootingHeight: Math.floor(Math.random() * (maxHeight - 300 + 1)) + 300,
-				AnimationEndedAction: line1LetterEnded
-			}, debug);
+			//var rocketa = new Rocket(line1RocketOffset + 1 * line1RocketSpacing, baseLine, {
+			//	ShrapnelCount: 25,
+			//	RocketRadius: 7, ShardRadius: 5, RocketExpansionRadius: 15, ExplosionExpansionRadius: 30, ExplosionShrapnelExpansionRadius: 70,
+			//	ShootDuration: 900, RocketExpansionDuration: 200, ExplosionExpansionDuration: 300, ExplosionShrapnelExpansionDuration: 500,
+			//	PathShrapnelLifetime: 500,
+			//	NonPathShrapnelLifetime: 100,
+			//	ShootingHeight: Math.floor(Math.random() * (maxHeight - 300 + 1)) + 300,
+			//	AnimationEndedAction: line1LetterEnded
+			//}, debug);
+			//var rocketp1 = new Rocket(line1RocketOffset + 2 * line1RocketSpacing, baseLine, {
+			//	ShrapnelCount: 25,
+			//	RocketRadius: 7, ShardRadius: 5, RocketExpansionRadius: 15, ExplosionExpansionRadius: 30, ExplosionShrapnelExpansionRadius: 70,
+			//	ShootDuration: 750, RocketExpansionDuration: 200, ExplosionExpansionDuration: 300, ExplosionShrapnelExpansionDuration: 500,
+			//	PathShrapnelLifetime: 500,
+			//	NonPathShrapnelLifetime: 100,
+			//	ShootingHeight: Math.floor(Math.random() * (maxHeight - 300 + 1)) + 300,
+			//	AnimationEndedAction: line1LetterEnded
+			//}, debug);
+			//var rocketp2 = new Rocket(line1RocketOffset + 3 * line1RocketSpacing, baseLine, {
+			//	ShrapnelCount: 25,
+			//	RocketRadius: 7, ShardRadius: 5, RocketExpansionRadius: 15, ExplosionExpansionRadius: 30, ExplosionShrapnelExpansionRadius: 70,
+			//	ShootDuration: 800, RocketExpansionDuration: 200, ExplosionExpansionDuration: 300, ExplosionShrapnelExpansionDuration: 500,
+			//	PathShrapnelLifetime: 500,
+			//	NonPathShrapnelLifetime: 100,
+			//	ShootingHeight: Math.floor(Math.random() * (maxHeight - 300 + 1)) + 300,
+			//	AnimationEndedAction: line1LetterEnded
+			//}, debug);
+			//var rockety = new Rocket(line1RocketOffset + 4 * line1RocketSpacing, baseLine, {
+			//	ShrapnelCount: 25,
+			//	RocketRadius: 7, ShardRadius: 5, RocketExpansionRadius: 15, ExplosionExpansionRadius: 30, ExplosionShrapnelExpansionRadius: 70,
+			//	ShootDuration: 600, RocketExpansionDuration: 200, ExplosionExpansionDuration: 300, ExplosionShrapnelExpansionDuration: 500,
+			//	PathShrapnelLifetime: 500,
+			//	NonPathShrapnelLifetime: 100,
+			//	ShootingHeight: Math.floor(Math.random() * (maxHeight - 300 + 1)) + 300,
+			//	AnimationEndedAction: line1LetterEnded
+			//}, debug);
 
 			rocketH.explodeToPathSection(50, targetPathH, 0, 1, 0, 3 * Math.PI / 2);
-			rocketa.explodeToPathSection(200, targetPatha, 0, 1, 0, Math.PI);
-			rocketp1.explodeToPathSection(150, targetPathp1, 0, 1, 0, Math.PI);
-			rocketp2.explodeToPathSection(0, targetPathp2, 0, 1, 0, Math.PI);
-			rockety.explodeToPathSection(100, targetPathy, 0, 1, Math.PI / 2, 4 * Math.PI / 2);
+			//rocketa.explodeToPathSection(200, targetPatha, 0, 1, 0, Math.PI);
+			//rocketp1.explodeToPathSection(150, targetPathp1, 0, 1, 0, Math.PI);
+			//rocketp2.explodeToPathSection(0, targetPathp2, 0, 1, 0, Math.PI);
+			//rockety.explodeToPathSection(100, targetPathy, 0, 1, Math.PI / 2, 4 * Math.PI / 2);
 
 
 		}
@@ -573,7 +572,7 @@
 			}, debug);
 			var rocket7 = new Rocket(line2RocketOffset + 3 * line2RocketSpacing, baseLine, {
 				ShrapnelCount: 25,
-				RocketRadius: 10, ShardRadius: 5, RocketExpansionRadius: 15, ExplosionExpansionRadius: 30, ExplosionShrapnelExpansionRadius: 80,
+				RocketRadius: 7, ShardRadius: 5, RocketExpansionRadius: 15, ExplosionExpansionRadius: 30, ExplosionShrapnelExpansionRadius: 80,
 				ShootDuration: 700, RocketExpansionDuration: 200, ExplosionExpansionDuration: 300, ExplosionShrapnelExpansionDuration: 700,
 				PathShrapnelLifetime: 500,
 				NonPathShrapnelLifetime: 300,
@@ -582,10 +581,10 @@
 			}, debug);
 
 
-			rocket2.explodeToPathSection(0, targetPath2, 0, 1, 0, Math.PI);
-			rocket0.explodeToPathSection(100, targetPath0, 0, 1, 0, Math.PI);
-			rocket1.explodeToPathSection(30, targetPath1, 0, 1, 0, Math.PI);
-			rocket7.explodeToPathSection(65, targetPath7, 0, 1, 0, Math.PI);
+			//rocket2.explodeToPathSection(0, targetPath2, 0, 1, 0, Math.PI);
+			//rocket0.explodeToPathSection(100, targetPath0, 0, 1, 0, Math.PI);
+			//rocket1.explodeToPathSection(30, targetPath1, 0, 1, 0, Math.PI);
+			//rocket7.explodeToPathSection(65, targetPath7, 0, 1, 0, Math.PI);
 
 		}
 

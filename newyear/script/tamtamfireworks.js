@@ -30,9 +30,10 @@ function Rocket(xPos, yPos, configuration, debug) {
     var explosionShrapnelExpansionRadius = 75;
 
     var animationStepDuration = 700;
-    var shootDuration = animationStepDuration;
-    var rocketExpansionDuration = animationStepDuration;
-    var explosionShrapnelExpansionDuration = animationStepDuration;
+    var shootDuration = animationStepDuration;                          // what is the duration of the launching
+    var rocketExpansionDuration = animationStepDuration;                // what is the duration of the expansion of the rocket, without exploding
+    var explosionExpansionDuration = animationStepDuration;             // what is the duration of the explosion, without bursting into shrapnel
+    var explosionShrapnelExpansionDuration = animationStepDuration;     
     var shootingHeight = 200;
 
     var shrapnelCount = 28;
