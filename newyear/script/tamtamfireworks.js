@@ -301,7 +301,11 @@ function Rocket(xPos, yPos, configuration, debug, debugText) {
         var startOffset = targetPath.getTotalLength() * startTargetPath;
         var pathStep = ((targetPath.getTotalLength() * endTargetPath) - startOffset) / (endCount - startCount);
 
+        debugTextSpan.html("explosionSet.forEach");
+
+
         explosionSet.forEach(function (e) {
+            var elem = e;
             var shrapnelAngle = explosionIndex * angleSpacing;
             var shrapnelRadius = explosionShrapnelExpansionRadius;
 
@@ -358,7 +362,6 @@ function Rocket(xPos, yPos, configuration, debug, debugText) {
                 endP;
 
             var path = paper.path(pathString).attr({ "opacity": pathOpacity });
-            var elem = e;
             var duration = explosionShrapnelExpansionDuration * path.getTotalLength() / shrapnelRadius;
 
             // Animate along a path
@@ -367,12 +370,12 @@ function Rocket(xPos, yPos, configuration, debug, debugText) {
             // https://github.com/DmitryBaranovskiy/raphaeljs.com/blob/master/gear.html
             // https://dmitrybaranovskiy.github.io/raphael/reference.html#Paper.customAttributes
 
-            e.attr({
+            elem.attr({
                 guide: path,
                 along: 0
             });
 
-            e.animate({
+            elem.animate({
                 along: pathSection,
                 r: endRadius
             }, duration, 'easeOut', fadeOutAnimation);
