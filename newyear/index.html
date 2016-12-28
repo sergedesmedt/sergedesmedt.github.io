@@ -37,10 +37,11 @@
 			var bodyMargin = parseFloat(bodyMarginCss);
 		}
 		var longestTekstOnThisPage = "Nog 99 dagen 99:99:99";
-		var longestTextWidth = $("#textCalculator").html(longestTekstOnThisPage).width();
+		var debugText = $("#textCalculator");
+		var longestTextWidth = debugText.html(longestTekstOnThisPage).width();
 		var documentWidth = $(document).width() - 2 * bodyMargin;
 		var fontHeight = parseFloat($("#textCalculator").css('font-size'));
-		$("#textCalculatorContainer").remove();
+		//$("#textCalculatorContainer").remove();
 
 		if (documentWidth < longestTextWidth) {
 			var horizontalScale = documentWidth / longestTextWidth;
@@ -441,7 +442,7 @@
 				NonPathShrapnelLifetime: 100,
 				ShootingHeight: Math.floor(Math.random() * (maxHeight - 300 + 1)) + 300,
 				AnimationEndedAction: line1LetterEnded
-			}, debug);
+			}, debug, debugText);
 			//var rocketa = new Rocket(line1RocketOffset + 1 * line1RocketSpacing, baseLine, {
 			//	ShrapnelCount: 25,
 			//	RocketRadius: 7, ShardRadius: 5, RocketExpansionRadius: 15, ExplosionExpansionRadius: 30, ExplosionShrapnelExpansionRadius: 70,

@@ -20,8 +20,11 @@ function RegisterRaphael(raphaelPaper) {
 }
 
 
-function Rocket(xPos, yPos, configuration, debug) {
+function Rocket(xPos, yPos, configuration, debug, debugText) {
     var pathOpacity = debug;
+    var debugTextSpan = debugText;
+
+    debugText.html("creation");
 
     var rocketRadius = 5;
     var shardRadius = 5;
@@ -101,6 +104,8 @@ function Rocket(xPos, yPos, configuration, debug) {
         "fill": "#FF0000",
         "stroke": "#660000"
     }, rocketExpansionDuration, 'easeOut', function () {
+        debugText.html("explosionFadeOut");
+
         this.animate(explosionFadeOut);
     });
 
@@ -275,6 +280,8 @@ function Rocket(xPos, yPos, configuration, debug) {
     }
 
     function sectionPathTargetAnimation() {
+        debugText.html("sectionPathTargetAnimation");
+
         var count = shrapnelCount;
         var angleSpacing = (2 * Math.PI) / count;
 
