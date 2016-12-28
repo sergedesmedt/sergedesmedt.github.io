@@ -305,83 +305,93 @@ function Rocket(xPos, yPos, configuration, debug, debugText) {
 
 
         explosionSet.forEach(function (e) {
-            debugTextSpan.html("explosionSet.forEach[" + explosionIndex + "]");
-            var elem = e;
-            var shrapnelAngle = explosionIndex * angleSpacing;
-            var shrapnelRadius = explosionShrapnelExpansionRadius;
+            debugTextSpan.html("[" + explosionIndex + "]explosionSet.forEach");
+            try {
+                var elem = e;
+                var shrapnelAngle = explosionIndex * angleSpacing;
+                var shrapnelRadius = explosionShrapnelExpansionRadius;
 
-            var centerPt = xPosition + ", " + yPosition;
-            var startX = xPosition + (shrapnelRadius * Math.cos(shrapnelAngle));
-            var startY = yPosition + (shrapnelRadius * Math.sin(shrapnelAngle));
-            var toX = startX + (shrapnelRadius * Math.cos(shrapnelAngle));
-            var toY = startY + (shrapnelRadius * Math.sin(shrapnelAngle));
-            var ctrlP2XDelta = (Math.sign(Math.sin(shrapnelAngle)) < 0) ? ((Math.sign(Math.cos(shrapnelAngle))) * 50) : (shrapnelRadius * Math.cos(shrapnelAngle));
-            var ctrlP2YDelta = (Math.sign(Math.sin(shrapnelAngle)) < 0) ? 0 : (shrapnelRadius * Math.sin(shrapnelAngle));
+                //debugTextSpan.html("[" + explosionIndex + "] calc");
 
-            //https://www.safaribooksonline.com/library/view/raphaeljs/9781449365356/ch04.html
-            var startPt = startX + ", " + startY;
-            var ctrlP1 = toX + "," + toY + " ";
-            var ctrlP2 = (toX + ctrlP2XDelta) + "," + (toY + ctrlP2YDelta) + " ";
-            var endP = (toX + ctrlP2XDelta) + "," + (toY + ctrlP2YDelta + yInitPos)
 
-            var endRadius = 0;
-            var pathSection = nonPathShrapnelLifetime / explosionShrapnelExpansionDuration;
-            var fadeOutAnimation = function () { partEndedAction(); };
-            var shrapnelAngle = explosionIndex * angleSpacing;
-            if (shrapnelAngle < startRingAngle || shrapnelAngle > endRingAngle) {
+                var centerPt = xPosition + ", " + yPosition;
+                var startX = xPosition + (shrapnelRadius * Math.cos(shrapnelAngle));
+                var startY = yPosition + (shrapnelRadius * Math.sin(shrapnelAngle));
+                var toX = startX + (shrapnelRadius * Math.cos(shrapnelAngle));
+                var toY = startY + (shrapnelRadius * Math.sin(shrapnelAngle));
+                var ctrlP2XDelta = (Math.sign(Math.sin(shrapnelAngle)) < 0) ? ((Math.sign(Math.cos(shrapnelAngle))) * 50) : (shrapnelRadius * Math.cos(shrapnelAngle));
+                var ctrlP2YDelta = (Math.sign(Math.sin(shrapnelAngle)) < 0) ? 0 : (shrapnelRadius * Math.sin(shrapnelAngle));
+
+                //https://www.safaribooksonline.com/library/view/raphaeljs/9781449365356/ch04.html
+                var startPt = startX + ", " + startY;
+                var ctrlP1 = toX + "," + toY + " ";
+                var ctrlP2 = (toX + ctrlP2XDelta) + "," + (toY + ctrlP2YDelta) + " ";
+                var endP = (toX + ctrlP2XDelta) + "," + (toY + ctrlP2YDelta + yInitPos)
+
+                var endRadius = 0;
+                var pathSection = nonPathShrapnelLifetime / explosionShrapnelExpansionDuration;
+                var fadeOutAnimation = function () { partEndedAction(); };
+                var shrapnelAngle = explosionIndex * angleSpacing;
+                if (shrapnelAngle < startRingAngle || shrapnelAngle > endRingAngle) {
+                }
+                else {
+                    var endPoint = targetPath.getPointAtLength(startOffset + (explosionIndex - startCount) * pathStep);
+                    endP = endPoint.x + "," + endPoint.y;
+                    endRadius = shardRadius;
+                    pathSection = 1;
+
+                    //fadeOutAnimation = function () {
+                    //    explosionSet.forEach(function (e) {
+                    //        var animateOpacity = Raphael.animation({
+                    //            opacity: 0
+                    //        }, duration, 'easeOut', partEndedAction);
+                    //        e.animate(animateOpacity.delay(pathShrapnelLifetime));
+                    //    });
+                    //}
+
+                    fadeOutAnimation = function () {
+                        var animateOpacity = Raphael.animation({
+                            opacity: 0
+                        }, duration, 'easeOut', partEndedAction);
+                        e.animate(animateOpacity.delay(pathShrapnelLifetime));
+                    }
+                }
+
+                var pathString =
+                    "M " + centerPt +
+                    "L " + startPt +
+                    "M " + startPt +
+                    " C " +
+                    ctrlP1 +
+                    ctrlP2 +
+                    endP;
+
+                var path = paper.path(pathString).attr({ "opacity": pathOpacity });
+                var duration = explosionShrapnelExpansionDuration * path.getTotalLength() / shrapnelRadius;
+
+                // Animate along a path
+                // https://www.safaribooksonline.com/library/view/learning-raphael-js/9781782169161/ch05s05.html
+                // http://stackoverflow.com/questions/13295656/raphaeljs-2-1-animate-along-path
+                // https://github.com/DmitryBaranovskiy/raphaeljs.com/blob/master/gear.html
+                // https://dmitrybaranovskiy.github.io/raphael/reference.html#Paper.customAttributes
+
+                elem.attr({
+                    guide: path,
+                    along: 0
+                });
+
+                debugTextSpan.html("[" + explosionIndex + "] animate elem");
+
+                elem.animate({
+                    along: pathSection,
+                    r: endRadius
+                }, duration, 'easeOut', fadeOutAnimation);
+
             }
-            else {
-                var endPoint = targetPath.getPointAtLength(startOffset + (explosionIndex - startCount) * pathStep);
-                endP = endPoint.x + "," + endPoint.y;
-                endRadius = shardRadius;
-                pathSection = 1;
-
-                //fadeOutAnimation = function () {
-                //    explosionSet.forEach(function (e) {
-                //        var animateOpacity = Raphael.animation({
-                //            opacity: 0
-                //        }, duration, 'easeOut', partEndedAction);
-                //        e.animate(animateOpacity.delay(pathShrapnelLifetime));
-                //    });
-                //}
-
-                fadeOutAnimation = function () {
-                    var animateOpacity = Raphael.animation({
-                        opacity: 0
-                    }, duration, 'easeOut', partEndedAction);
-                    e.animate(animateOpacity.delay(pathShrapnelLifetime));
+            catch (err)
+            {
+                debugTextSpan.html("[" + explosionIndex + "]fe err: " + err.message);
             }
-            }
-
-            var pathString =
-                "M " + centerPt +
-                "L " + startPt +
-                "M " + startPt +
-                " C " +
-                ctrlP1 +
-                ctrlP2 +
-                endP;
-
-            var path = paper.path(pathString).attr({ "opacity": pathOpacity });
-            var duration = explosionShrapnelExpansionDuration * path.getTotalLength() / shrapnelRadius;
-
-            // Animate along a path
-            // https://www.safaribooksonline.com/library/view/learning-raphael-js/9781782169161/ch05s05.html
-            // http://stackoverflow.com/questions/13295656/raphaeljs-2-1-animate-along-path
-            // https://github.com/DmitryBaranovskiy/raphaeljs.com/blob/master/gear.html
-            // https://dmitrybaranovskiy.github.io/raphael/reference.html#Paper.customAttributes
-
-            elem.attr({
-                guide: path,
-                along: 0
-            });
-
-            debugTextSpan.html("explosionSet.forEach[" + explosionIndex + "] > animate elem");
-
-            elem.animate({
-                along: pathSection,
-                r: endRadius
-            }, duration, 'easeOut', fadeOutAnimation);
 
             explosionIndex++;
         });
