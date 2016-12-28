@@ -104,7 +104,7 @@ function Rocket(xPos, yPos, configuration, debug, debugText) {
         "fill": "#FF0000",
         "stroke": "#660000"
     }, rocketExpansionDuration, 'easeOut', function () {
-        //debugText.html("explosionFadeOut");
+        debugTextSpan.html("explosionFadeOut");
 
         this.animate(explosionFadeOut);
     });
@@ -280,7 +280,7 @@ function Rocket(xPos, yPos, configuration, debug, debugText) {
     }
 
     function sectionPathTargetAnimation() {
-        //debugText.html("sectionPathTargetAnimation");
+        debugTextSpan.html("sectionPathTargetAnimation");
 
         var count = shrapnelCount;
         var angleSpacing = (2 * Math.PI) / count;
