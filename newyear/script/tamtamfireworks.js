@@ -24,7 +24,7 @@ function Rocket(xPos, yPos, configuration, debug, debugText) {
     var pathOpacity = debug;
     var debugTextSpan = debugText;
 
-    debugTextSpan.html("creation");
+    //debugTextSpan.html("creation");
 
     var rocketRadius = 5;
     var shardRadius = 5;
@@ -104,7 +104,7 @@ function Rocket(xPos, yPos, configuration, debug, debugText) {
         "fill": "#FF0000",
         "stroke": "#660000"
     }, rocketExpansionDuration, 'easeOut', function () {
-        debugTextSpan.html("explosionFadeOut");
+        //debugTextSpan.html("explosionFadeOut");
 
         this.animate(explosionFadeOut);
     });
@@ -287,7 +287,7 @@ function Rocket(xPos, yPos, configuration, debug, debugText) {
     }
 
     function sectionPathTargetAnimation() {
-        debugTextSpan.html("sectionPathTargetAnimation");
+        //debugTextSpan.html("sectionPathTargetAnimation");
 
         var count = shrapnelCount;
         var angleSpacing = (2 * Math.PI) / count;
@@ -308,13 +308,13 @@ function Rocket(xPos, yPos, configuration, debug, debugText) {
         var startOffset = targetPath.getTotalLength() * startTargetPath;
         var pathStep = ((targetPath.getTotalLength() * endTargetPath) - startOffset) / (endCount - startCount);
 
-        debugTextSpan.html("explosionSet.forEach");
+        //debugTextSpan.html("explosionSet.forEach");
 
 
         explosionSet.forEach(function (e) {
-            debugTextSpan.html("[" + explosionIndex + "]explosionSet.forEach");
+            //debugTextSpan.html("[" + explosionIndex + "]explosionSet.forEach");
             try {
-                debugTextSpan.html("[" + explosionIndex + "]trying");
+                //debugTextSpan.html("[" + explosionIndex + "]trying");
                 var elem = e;
                 var shrapnelAngle = explosionIndex * angleSpacing;
                 var shrapnelRadius = explosionShrapnelExpansionRadius;
@@ -388,7 +388,7 @@ function Rocket(xPos, yPos, configuration, debug, debugText) {
                     along: 0
                 });
 
-                debugTextSpan.html("[" + explosionIndex + "] animate elem");
+                //debugTextSpan.html("[" + explosionIndex + "] animate elem");
 
                 elem.animate({
                     along: pathSection,
@@ -398,7 +398,7 @@ function Rocket(xPos, yPos, configuration, debug, debugText) {
             }
             catch (err)
             {
-                debugTextSpan.html("[" + explosionIndex + "]fe err: " + err.message);
+                //debugTextSpan.html("[" + explosionIndex + "]fe err: " + err.message);
             }
 
             explosionIndex++;

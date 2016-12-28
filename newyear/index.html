@@ -2,7 +2,7 @@
 <html>
     <head>
 		<meta name="viewport" content="width=device-width">
-        <title>Test 7</title>
+        <title>Test 8</title>
         <style type="text/css">
             body{font-family: arial; background: #FFFFFF}
 			.calcTextSizeContainer {
@@ -17,7 +17,7 @@
         </style>
 		<script type="text/javascript" src="script/raphael.min.js" ></script>
 		<script type="text/javascript" src="script/jquery-3.1.1.min.js" ></script>
-		<script type="text/javascript" src="script/tamtamfireworks.js?0007" ></script>
+		<script type="text/javascript" src="script/tamtamfireworks.js?0008" ></script>
     </head>
     <body id="theBody">
 		<div >
@@ -40,6 +40,7 @@
 		var debugText = $("#textCalculator");
 		var longestTextWidth = debugText.html(longestTekstOnThisPage).width();
 		var documentWidth = $(document).width() - 2 * bodyMargin;
+		var documentHeight = $(document).height() - 2 * bodyMargin;
 		var fontHeight = parseFloat($("#textCalculator").css('font-size'));
 		//$("#textCalculatorContainer").remove();
 
@@ -47,6 +48,11 @@
 			var horizontalScale = documentWidth / longestTextWidth;
 			fontHeight = fontHeight * horizontalScale;
 		}
+
+
+		debugText.html("W:" + documentWidth + ", H:" + documentHeight);
+
+		var textYPos = Math.min(600, documentHeight);
 
 		var textHeight = fontHeight + "px";
 
@@ -347,7 +353,7 @@
 		var startLine1 = function () {
 
 			var textStartPosXHappy = (documentWidth / 2) - (((15 * textRasterSize) + (4 * textSpacing)) / 2);
-			var textStartPosYHappy = 600;
+			var textStartPosYHappy = textYPos;
 
 			var targetPathLetterHString =
 				"M " + (textStartPosXHappy + 0 * textRasterSize) + "," + (textStartPosYHappy + 0 * textRasterSize) +
@@ -434,8 +440,6 @@
 				}
 			};
 
-			debugText.html("testje");
-
 			var rocketH = new Rocket(line1RocketOffset + 0 * line1RocketSpacing, baseLine, {
 				ShrapnelCount: 25,
 				RocketRadius: 7, ShardRadius: 5, RocketExpansionRadius: 15, ExplosionExpansionRadius: 30, ExplosionShrapnelExpansionRadius: 70,
@@ -494,7 +498,7 @@
 		var startLine2 = function () {
 
 			var textStartPosX2017 = (documentWidth / 2) - (((11 * textRasterSize) + (3 * textSpacing)) / 2);
-			var textStartPosY2017 = 600;
+			var textStartPosY2017 = textYPos;
 
 			var targetPathNumberTwoString =
 				"M " + (textStartPosX2017 + 0 * textRasterSize) + "," + (textStartPosY2017 + 1 * textRasterSize) +
