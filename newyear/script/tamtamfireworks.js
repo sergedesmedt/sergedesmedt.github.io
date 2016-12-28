@@ -115,6 +115,13 @@ function Rocket(xPos, yPos, configuration, debug, debugText) {
         "stroke": "#FFFFFF"
     }, explosionExpansionDuration, 'easeOut', endAnimation);
 
+    function internalSign(x) {
+        if (+x === x) { // check if a number was given
+            return (x === 0) ? x : (x > 0) ? 1 : -1;
+        }
+        return NaN;
+    }
+
     function defaultTargetAnimation() {
         var count = shrapnelCount;
         var angleSpacing = (2 * Math.PI) / count;
@@ -137,10 +144,10 @@ function Rocket(xPos, yPos, configuration, debug, debugText) {
             var startY = yPosition + (shrapnelRadius * Math.sin(shrapnelAngle));
             var toX = startX + (shrapnelRadius * Math.cos(shrapnelAngle));
             var toY = startY + (shrapnelRadius * Math.sin(shrapnelAngle));
-            var ctrlP2XDelta = (Math.sign(Math.sin(shrapnelAngle)) < 0) ? ((Math.sign(Math.cos(shrapnelAngle))) * 50) : (shrapnelRadius * Math.cos(shrapnelAngle));
-            var ctrlP2YDelta = (Math.sign(Math.sin(shrapnelAngle)) < 0) ? 0 : (shrapnelRadius * Math.sin(shrapnelAngle));
+            var ctrlP2XDelta = (internalSign(Math.sin(shrapnelAngle)) < 0) ? ((internalSign(Math.cos(shrapnelAngle))) * 50) : (shrapnelRadius * Math.cos(shrapnelAngle));
+            var ctrlP2YDelta = (internalSign(Math.sin(shrapnelAngle)) < 0) ? 0 : (shrapnelRadius * Math.sin(shrapnelAngle));
 
-            //console.log(explosionIndex + ", " + Math.sign(Math.sin(shrapnelAngle)) + ", " + ctrlP2YDelta);
+            //console.log(explosionIndex + ", " + internalSign(Math.sin(shrapnelAngle)) + ", " + ctrlP2YDelta);
 
             //https://www.safaribooksonline.com/library/view/raphaeljs/9781449365356/ch04.html
             var startPt = startX + ", " + startY;
@@ -213,12 +220,12 @@ function Rocket(xPos, yPos, configuration, debug, debugText) {
             var startY = yPosition + (shrapnelRadius * Math.sin(shrapnelAngle));
             var toX = startX + (shrapnelRadius * Math.cos(shrapnelAngle));
             var toY = startY + (shrapnelRadius * Math.sin(shrapnelAngle));
-            var ctrlP2XDelta = (Math.sign(Math.sin(shrapnelAngle)) < 0) ? ((Math.sign(Math.cos(shrapnelAngle))) * 50) : (shrapnelRadius * Math.cos(shrapnelAngle));
-            var ctrlP2YDelta = (Math.sign(Math.sin(shrapnelAngle)) < 0) ? 0 : (shrapnelRadius * Math.sin(shrapnelAngle));
+            var ctrlP2XDelta = (internalSign(Math.sin(shrapnelAngle)) < 0) ? ((internalSign(Math.cos(shrapnelAngle))) * 50) : (shrapnelRadius * Math.cos(shrapnelAngle));
+            var ctrlP2YDelta = (internalSign(Math.sin(shrapnelAngle)) < 0) ? 0 : (shrapnelRadius * Math.sin(shrapnelAngle));
 
             var endPoint = targetPath.getPointAtLength(explosionIndex * pathStep);
 
-            //console.log(explosionIndex + ", " + Math.sign(Math.sin(shrapnelAngle)) + ", " + ctrlP2YDelta);
+            //console.log(explosionIndex + ", " + internalSign(Math.sin(shrapnelAngle)) + ", " + ctrlP2YDelta);
 
             //https://www.safaribooksonline.com/library/view/raphaeljs/9781449365356/ch04.html
             var startPt = startX + ", " + startY;
@@ -307,6 +314,7 @@ function Rocket(xPos, yPos, configuration, debug, debugText) {
         explosionSet.forEach(function (e) {
             debugTextSpan.html("[" + explosionIndex + "]explosionSet.forEach");
             try {
+                debugTextSpan.html("[" + explosionIndex + "]trying");
                 var elem = e;
                 var shrapnelAngle = explosionIndex * angleSpacing;
                 var shrapnelRadius = explosionShrapnelExpansionRadius;
@@ -319,8 +327,8 @@ function Rocket(xPos, yPos, configuration, debug, debugText) {
                 var startY = yPosition + (shrapnelRadius * Math.sin(shrapnelAngle));
                 var toX = startX + (shrapnelRadius * Math.cos(shrapnelAngle));
                 var toY = startY + (shrapnelRadius * Math.sin(shrapnelAngle));
-                var ctrlP2XDelta = (Math.sign(Math.sin(shrapnelAngle)) < 0) ? ((Math.sign(Math.cos(shrapnelAngle))) * 50) : (shrapnelRadius * Math.cos(shrapnelAngle));
-                var ctrlP2YDelta = (Math.sign(Math.sin(shrapnelAngle)) < 0) ? 0 : (shrapnelRadius * Math.sin(shrapnelAngle));
+                var ctrlP2XDelta = (internalSign(Math.sin(shrapnelAngle)) < 0) ? ((internalSign(Math.cos(shrapnelAngle))) * 50) : (shrapnelRadius * Math.cos(shrapnelAngle));
+                var ctrlP2YDelta = (internalSign(Math.sin(shrapnelAngle)) < 0) ? 0 : (shrapnelRadius * Math.sin(shrapnelAngle));
 
                 //https://www.safaribooksonline.com/library/view/raphaeljs/9781449365356/ch04.html
                 var startPt = startX + ", " + startY;
