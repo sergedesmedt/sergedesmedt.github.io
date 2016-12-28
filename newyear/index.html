@@ -2,7 +2,7 @@
 <html>
     <head>
 		<meta name="viewport" content="width=device-width">
-        <title>Test 12</title>
+        <title>Test 13</title>
         <style type="text/css">
             body{font-family: arial; background: #FFFFFF}
 			.calcTextSizeContainer {
@@ -17,7 +17,7 @@
         </style>
 		<script type="text/javascript" src="script/raphael.min.js" ></script>
 		<script type="text/javascript" src="script/jquery-3.1.1.min.js" ></script>
-		<script type="text/javascript" src="script/tamtamfireworks.js?0012" ></script>
+		<script type="text/javascript" src="script/tamtamfireworks.js?0013" ></script>
     </head>
     <body id="theBody">
 		<div >
@@ -42,7 +42,7 @@
 		var documentWidth = $(document).width() - 2 * bodyMargin;
 		var documentHeight = $(document).height() - 2 * bodyMargin;
 		var fontHeight = parseFloat($("#textCalculator").css('font-size'));
-		//$("#textCalculatorContainer").remove();
+		$("#textCalculatorContainer").remove();
 
 		if (documentWidth < longestTextWidth) {
 			var horizontalScale = documentWidth / longestTextWidth;
@@ -52,7 +52,7 @@
 		var textRasterSize = Math.min(25, Math.floor((documentWidth - 2*10)/19));
 		var textYPos = Math.min(600, documentHeight - textRasterSize * 7 - 50);
 
-		debugText.html("W:" + documentWidth + ", H:" + documentHeight + ", TP:" + textYPos + ", RS:" + textRasterSize);
+		//debugText.html("W:" + documentWidth + ", H:" + documentHeight + ", TP:" + textYPos + ", RS:" + textRasterSize);
 
 
 		var textHeight = fontHeight + "px";
@@ -444,7 +444,7 @@
 				ShrapnelCount: 25,
 				RocketRadius: 7, ShardRadius: 5, RocketExpansionRadius: 15, ExplosionExpansionRadius: 30, ExplosionShrapnelExpansionRadius: 70,
 				ShootDuration: 700, RocketExpansionDuration: 200, ExplosionExpansionDuration: 300, ExplosionShrapnelExpansionDuration: 500,
-				PathShrapnelLifetime: 500,
+				PathShrapnelLifetime: 10000,
 				NonPathShrapnelLifetime: 100,
 				ShootingHeight: Math.floor(Math.random() * (maxHeight - 300 + 1)) + 300,
 				AnimationEndedAction: line1LetterEnded
@@ -453,7 +453,7 @@
 				ShrapnelCount: 25,
 				RocketRadius: 7, ShardRadius: 5, RocketExpansionRadius: 15, ExplosionExpansionRadius: 30, ExplosionShrapnelExpansionRadius: 70,
 				ShootDuration: 900, RocketExpansionDuration: 200, ExplosionExpansionDuration: 300, ExplosionShrapnelExpansionDuration: 500,
-				PathShrapnelLifetime: 500,
+				PathShrapnelLifetime: 2000,
 				NonPathShrapnelLifetime: 100,
 				ShootingHeight: Math.floor(Math.random() * (maxHeight - 300 + 1)) + 300,
 				AnimationEndedAction: line1LetterEnded
@@ -462,7 +462,7 @@
 				ShrapnelCount: 25,
 				RocketRadius: 7, ShardRadius: 5, RocketExpansionRadius: 15, ExplosionExpansionRadius: 30, ExplosionShrapnelExpansionRadius: 70,
 				ShootDuration: 750, RocketExpansionDuration: 200, ExplosionExpansionDuration: 300, ExplosionShrapnelExpansionDuration: 500,
-				PathShrapnelLifetime: 500,
+				PathShrapnelLifetime: 8000,
 				NonPathShrapnelLifetime: 100,
 				ShootingHeight: Math.floor(Math.random() * (maxHeight - 300 + 1)) + 300,
 				AnimationEndedAction: line1LetterEnded
@@ -471,7 +471,7 @@
 				ShrapnelCount: 25,
 				RocketRadius: 7, ShardRadius: 5, RocketExpansionRadius: 15, ExplosionExpansionRadius: 30, ExplosionShrapnelExpansionRadius: 70,
 				ShootDuration: 800, RocketExpansionDuration: 200, ExplosionExpansionDuration: 300, ExplosionShrapnelExpansionDuration: 500,
-				PathShrapnelLifetime: 500,
+				PathShrapnelLifetime: 4000,
 				NonPathShrapnelLifetime: 100,
 				ShootingHeight: Math.floor(Math.random() * (maxHeight - 300 + 1)) + 300,
 				AnimationEndedAction: line1LetterEnded
@@ -480,17 +480,17 @@
 				ShrapnelCount: 25,
 				RocketRadius: 7, ShardRadius: 5, RocketExpansionRadius: 15, ExplosionExpansionRadius: 30, ExplosionShrapnelExpansionRadius: 70,
 				ShootDuration: 600, RocketExpansionDuration: 200, ExplosionExpansionDuration: 300, ExplosionShrapnelExpansionDuration: 500,
-				PathShrapnelLifetime: 500,
+				PathShrapnelLifetime: 6000,
 				NonPathShrapnelLifetime: 100,
 				ShootingHeight: Math.floor(Math.random() * (maxHeight - 300 + 1)) + 300,
 				AnimationEndedAction: line1LetterEnded
 			}, debug, debugText);
 
 			rocketH.explodeToPathSection(50, targetPathH, 0, 1, 0, 3 * Math.PI / 2);
-			rocketa.explodeToPathSection(200, targetPatha, 0, 1, 0, Math.PI);
-			rocketp1.explodeToPathSection(150, targetPathp1, 0, 1, 0, Math.PI);
-			rocketp2.explodeToPathSection(0, targetPathp2, 0, 1, 0, Math.PI);
-			rockety.explodeToPathSection(100, targetPathy, 0, 1, Math.PI / 2, 4 * Math.PI / 2);
+			//rocketa.explodeToPathSection(8050, targetPatha, 0, 1, 0, Math.PI);
+			//rocketp1.explodeToPathSection(2050, targetPathp1, 0, 1, 0, Math.PI);
+			//rocketp2.explodeToPathSection(6050, targetPathp2, 0, 1, 0, Math.PI);
+			//rockety.explodeToPathSection(4050, targetPathy, 0, 1, Math.PI / 2, 4 * Math.PI / 2);
 
 
 		}
