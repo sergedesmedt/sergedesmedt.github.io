@@ -66,7 +66,7 @@
 		var now = new Date();
 		//var newYear = new Date(2016, 11, 17, 21, 47, 45);
 		//var newYear = new Date(2017, 0, 1, 0, 0, 0);
-		var newYear = new Date(now.getTime() + 1000 * 6);
+		var newYear = new Date(now.getTime() + 1000 * 2);
 
 		function pad2(num) {
 			var s = "0" + num;
@@ -443,9 +443,10 @@
 			var rocketH = new Rocket(line1RocketOffset + 0 * line1RocketSpacing, baseLine, {
 				ShrapnelCount: 25,
 				RocketRadius: 7, ShardRadius: 5, RocketExpansionRadius: 15, ExplosionExpansionRadius: 30, ExplosionShrapnelExpansionRadius: 70,
-				ShootDuration: 700, RocketExpansionDuration: 200, ExplosionExpansionDuration: 300, ExplosionShrapnelExpansionDuration: 500,
+				ShootDuration: 700, RocketExpansionDuration: 200, ExplosionExpansionDuration: 300, ExplosionShrapnelExpansionDuration: 2000,
 				PathShrapnelLifetime: 10000,
-				NonPathShrapnelLifetime: 100,
+				NonPathShrapnelLifetime: 1500,
+				PathShrapnelFadeOutDuration : 1000,
 				ShootingHeight: Math.floor(Math.random() * (maxHeight - 300 + 1)) + 300,
 				AnimationEndedAction: line1LetterEnded
 			}, debug, debugText);
@@ -455,6 +456,7 @@
 				ShootDuration: 900, RocketExpansionDuration: 200, ExplosionExpansionDuration: 300, ExplosionShrapnelExpansionDuration: 500,
 				PathShrapnelLifetime: 2000,
 				NonPathShrapnelLifetime: 100,
+				PathShrapnelFadeOutDuration: 1000,
 				ShootingHeight: Math.floor(Math.random() * (maxHeight - 300 + 1)) + 300,
 				AnimationEndedAction: line1LetterEnded
 			}, debug, debugText);
@@ -464,6 +466,7 @@
 				ShootDuration: 750, RocketExpansionDuration: 200, ExplosionExpansionDuration: 300, ExplosionShrapnelExpansionDuration: 500,
 				PathShrapnelLifetime: 8000,
 				NonPathShrapnelLifetime: 100,
+				PathShrapnelFadeOutDuration: 1000,
 				ShootingHeight: Math.floor(Math.random() * (maxHeight - 300 + 1)) + 300,
 				AnimationEndedAction: line1LetterEnded
 			}, debug, debugText);
@@ -473,6 +476,7 @@
 				ShootDuration: 800, RocketExpansionDuration: 200, ExplosionExpansionDuration: 300, ExplosionShrapnelExpansionDuration: 500,
 				PathShrapnelLifetime: 4000,
 				NonPathShrapnelLifetime: 100,
+				PathShrapnelFadeOutDuration: 1000,
 				ShootingHeight: Math.floor(Math.random() * (maxHeight - 300 + 1)) + 300,
 				AnimationEndedAction: line1LetterEnded
 			}, debug, debugText);
@@ -482,15 +486,16 @@
 				ShootDuration: 600, RocketExpansionDuration: 200, ExplosionExpansionDuration: 300, ExplosionShrapnelExpansionDuration: 500,
 				PathShrapnelLifetime: 6000,
 				NonPathShrapnelLifetime: 100,
+				PathShrapnelFadeOutDuration: 1000,
 				ShootingHeight: Math.floor(Math.random() * (maxHeight - 300 + 1)) + 300,
 				AnimationEndedAction: line1LetterEnded
 			}, debug, debugText);
 
 			rocketH.explodeToPathSection(50, targetPathH, 0, 1, 0, 3 * Math.PI / 2);
-			//rocketa.explodeToPathSection(8050, targetPatha, 0, 1, 0, Math.PI);
-			//rocketp1.explodeToPathSection(2050, targetPathp1, 0, 1, 0, Math.PI);
-			//rocketp2.explodeToPathSection(6050, targetPathp2, 0, 1, 0, Math.PI);
-			//rockety.explodeToPathSection(4050, targetPathy, 0, 1, Math.PI / 2, 4 * Math.PI / 2);
+			rocketa.explodeToPathSection(8050, targetPatha, 0, 1, 0, Math.PI);
+			rocketp1.explodeToPathSection(2050, targetPathp1, 0, 1, 0, Math.PI);
+			rocketp2.explodeToPathSection(6050, targetPathp2, 0, 1, 0, Math.PI);
+			rockety.explodeToPathSection(4050, targetPathy, 0, 1, Math.PI / 2, 4 * Math.PI / 2);
 
 
 		}
@@ -556,6 +561,7 @@
 				ShootDuration: 700, RocketExpansionDuration: 200, ExplosionExpansionDuration: 300, ExplosionShrapnelExpansionDuration: 700,
 				PathShrapnelLifetime: 500,
 				NonPathShrapnelLifetime: 300,
+				PathShrapnelFadeOutDuration: 1000,
 				ShootingHeight: Math.floor(Math.random() * (maxHeight - 300 + 1)) + 300,
 				AnimationEndedAction: function () { }
 			}, debug);
@@ -565,6 +571,7 @@
 				ShootDuration: 700, RocketExpansionDuration: 200, ExplosionExpansionDuration: 300, ExplosionShrapnelExpansionDuration: 700,
 				PathShrapnelLifetime: 500,
 				NonPathShrapnelLifetime: 300,
+				PathShrapnelFadeOutDuration: 1000,
 				ShootingHeight: Math.floor(Math.random() * (maxHeight - 300 + 1)) + 300,
 				AnimationEndedAction: function () { }
 			}, debug);
@@ -574,6 +581,7 @@
 				ShootDuration: 700, RocketExpansionDuration: 200, ExplosionExpansionDuration: 300, ExplosionShrapnelExpansionDuration: 700,
 				PathShrapnelLifetime: 500,
 				NonPathShrapnelLifetime: 300,
+				PathShrapnelFadeOutDuration: 1000,
 				ShootingHeight: Math.floor(Math.random() * (maxHeight - 300 + 1)) + 300,
 				AnimationEndedAction: function () { }
 			}, debug);
@@ -583,6 +591,7 @@
 				ShootDuration: 700, RocketExpansionDuration: 200, ExplosionExpansionDuration: 300, ExplosionShrapnelExpansionDuration: 700,
 				PathShrapnelLifetime: 500,
 				NonPathShrapnelLifetime: 300,
+				PathShrapnelFadeOutDuration: 1000,
 				ShootingHeight: Math.floor(Math.random() * (maxHeight - 300 + 1)) + 300,
 				AnimationEndedAction: function () { }
 			}, debug);

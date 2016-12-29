@@ -36,12 +36,13 @@ function Rocket(xPos, yPos, configuration, debug, debugText) {
     var shootDuration = animationStepDuration;                          // what is the duration of the launching
     var rocketExpansionDuration = animationStepDuration;                // what is the duration of the expansion of the rocket, without exploding
     var explosionExpansionDuration = animationStepDuration;             // what is the duration of the explosion, without bursting into shrapnel
-    var explosionShrapnelExpansionDuration = animationStepDuration;     
+    var explosionShrapnelExpansionDuration = animationStepDuration;     // What is the duration of the fallout of the shrapnel
     var shootingHeight = 200;
 
     var shrapnelCount = 28;
     var nonPathShrapnelLifetime = explosionShrapnelExpansionDuration / 2;
-    var pathShrapnelLifetime = 0;
+    var pathShrapnelLifetime = 0;                                       // What is the duration of the shrapnel once it is on the path
+    var pathShrapnelFadeOutDuration = 100;
 
     var animationEndedAction = function () { };
 
@@ -60,6 +61,7 @@ function Rocket(xPos, yPos, configuration, debug, debugText) {
         pathShrapnelLifetime = configuration.PathShrapnelLifetime;
         shootingHeight = configuration.ShootingHeight;
         animationEndedAction = configuration.AnimationEndedAction;
+        pathShrapnelFadeOutDuration = configuration.PathShrapnelFadeOutDuration;
     }
 
     var numberOfAnimationsEnded = 0;
@@ -177,12 +179,6 @@ function Rocket(xPos, yPos, configuration, debug, debugText) {
             var duration = explosionShrapnelExpansionDuration * path.getTotalLength() / shrapnelRadius; // WTF was I thinking ????
             var pathSection = nonPathShrapnelLifetime / explosionShrapnelExpansionDuration;
 
-            // Animate along a path
-            // https://www.safaribooksonline.com/library/view/learning-raphael-js/9781782169161/ch05s05.html
-            // http://stackoverflow.com/questions/13295656/raphaeljs-2-1-animate-along-path
-            // https://github.com/DmitryBaranovskiy/raphaeljs.com/blob/master/gear.html
-            // https://dmitrybaranovskiy.github.io/raphael/reference.html#Paper.customAttributes
-
             e.attr({
                 guide: path,
                 along: 0
@@ -247,7 +243,7 @@ function Rocket(xPos, yPos, configuration, debug, debugText) {
             var fadeOutAnimation = function () {
                 var animateOpacity = Raphael.animation({
                     opacity: 0
-                }, duration, 'easeOut');
+                }, pathShrapnelFadeOutDuration, 'easeOut');
                 e.animate(animateOpacity.delay(pathShrapnelLifetime), partEndedAction);
             };
 
@@ -264,7 +260,7 @@ function Rocket(xPos, yPos, configuration, debug, debugText) {
             //console.log(pathString);
             var path = paper.path(pathString).attr({ "opacity": pathOpacity });
             var elem = e;
-            var duration = explosionShrapnelExpansionDuration * path.getTotalLength() / shrapnelRadius;
+            var duration = explosionShrapnelExpansionDuration; // * path.getTotalLength() / shrapnelRadius;
 
             // Animate along a path
             // https://www.safaribooksonline.com/library/view/learning-raphael-js/9781782169161/ch05s05.html
@@ -289,6 +285,8 @@ function Rocket(xPos, yPos, configuration, debug, debugText) {
     function sectionPathTargetAnimation() {
         //debugTextSpan.html("sectionPathTargetAnimation");
 
+
+        // create all the shrapnel
         var count = shrapnelCount;
         var angleSpacing = (2 * Math.PI) / count;
 
@@ -302,6 +300,8 @@ function Rocket(xPos, yPos, configuration, debug, debugText) {
 
         var explosionIndex = 0;
 
+        // calculate the arc that will animate into the path
+
         var startCount = Math.ceil(startRingAngle / angleSpacing);
         var endCount = Math.floor(endRingAngle / angleSpacing);
 
@@ -309,19 +309,19 @@ function Rocket(xPos, yPos, configuration, debug, debugText) {
         var pathStep = ((targetPath.getTotalLength() * endTargetPath) - startOffset) / (endCount - startCount);
 
         //debugTextSpan.html("explosionSet.forEach");
-
-
         explosionSet.forEach(function (e) {
             //debugTextSpan.html("[" + explosionIndex + "]explosionSet.forEach");
             try {
                 //debugTextSpan.html("[" + explosionIndex + "]trying");
                 var elem = e;
+
+
                 var shrapnelAngle = explosionIndex * angleSpacing;
                 var shrapnelRadius = explosionShrapnelExpansionRadius;
 
                 //debugTextSpan.html("[" + explosionIndex + "] calc");
 
-
+                //calculate some intermediate points
                 var centerPt = xPosition + ", " + yPosition;
                 var startX = xPosition + (shrapnelRadius * Math.cos(shrapnelAngle));
                 var startY = yPosition + (shrapnelRadius * Math.sin(shrapnelAngle));
@@ -338,29 +338,25 @@ function Rocket(xPos, yPos, configuration, debug, debugText) {
 
                 var endRadius = 0;
                 var pathSection = nonPathShrapnelLifetime / explosionShrapnelExpansionDuration;
+                var duration = nonPathShrapnelLifetime;
                 var fadeOutAnimation = function () { partEndedAction(); };
                 var shrapnelAngle = explosionIndex * angleSpacing;
                 if (shrapnelAngle < startRingAngle || shrapnelAngle > endRingAngle) {
+                    // do not animate to the path
                 }
                 else {
+                    // animate to the path
+                    duration = explosionShrapnelExpansionDuration; // * path.getTotalLength() / shrapnelRadius;
+
                     var endPoint = targetPath.getPointAtLength(startOffset + (explosionIndex - startCount) * pathStep);
                     endP = endPoint.x + "," + endPoint.y;
                     endRadius = shardRadius;
                     pathSection = 1;
 
-                    //fadeOutAnimation = function () {
-                    //    explosionSet.forEach(function (e) {
-                    //        var animateOpacity = Raphael.animation({
-                    //            opacity: 0
-                    //        }, duration, 'easeOut', partEndedAction);
-                    //        e.animate(animateOpacity.delay(pathShrapnelLifetime));
-                    //    });
-                    //}
-
                     fadeOutAnimation = function () {
                         var animateOpacity = Raphael.animation({
                             opacity: 0
-                        }, duration, 'easeOut', partEndedAction);
+                        }, pathShrapnelFadeOutDuration, 'easeOut', partEndedAction);
                         e.animate(animateOpacity.delay(pathShrapnelLifetime));
                     }
                 }
@@ -375,7 +371,6 @@ function Rocket(xPos, yPos, configuration, debug, debugText) {
                     endP;
 
                 var path = paper.path(pathString).attr({ "opacity": pathOpacity });
-                var duration = explosionShrapnelExpansionDuration * path.getTotalLength() / shrapnelRadius;
 
                 // Animate along a path
                 // https://www.safaribooksonline.com/library/view/learning-raphael-js/9781782169161/ch05s05.html
