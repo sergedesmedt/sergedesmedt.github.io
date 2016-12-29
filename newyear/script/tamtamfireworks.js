@@ -9,6 +9,20 @@ function RegisterRaphael(raphaelPaper) {
     }
 
     raphaelPaper.customAttributes.along = function (percent) {
+        var guide = this.attr("guide");
+        var guideLength = guide.getTotalLength();
+        var currentPoint = guide.getPointAtLength(percent * guideLength);
+        //console.log("animate to point x:"+currentPoint.x+", y:"+currentPoint.y);
+        var animationTarget = {
+            cx: currentPoint.x,
+            cy: currentPoint.y,
+            opacity: 1 //(1 - percent)
+        }
+
+        return animationTarget;
+    }
+
+    raphaelPaper.customAttributes.alongshrapnel = function (percent) {
         //console.log("animate along:" + percent);
         var shrapnel = this.attr("shrapnel");
         shrapnel.forEach(function (e) {
@@ -279,14 +293,14 @@ function Rocket(xPos, yPos, configuration, debug, debugText) {
         });
 
         circle.attr({
-            along: 0,
+            alongshrapnel: 0,
             shrapnel: explosionSet
         });
 
         var duration = explosionShrapnelExpansionDuration; // * path.getTotalLength() / shrapnelRadius;
 
         circle.animate({
-            along: 1
+            alongshrapnel: 1
         }, duration, 'easeOut', fadeOutAnimation);
 
     }
@@ -382,7 +396,8 @@ function Rocket(xPos, yPos, configuration, debug, debugText) {
                 var path = paper.path(pathString).attr({ "opacity": pathOpacity });
 
                 elem.attr({
-                    guide: path
+                    guide: path,
+                    along: 0
                 });
 
                 //debugTextSpan.html("[" + explosionIndex + "] animate elem");
