@@ -441,7 +441,7 @@
 			};
 
 			var rocketH = new Rocket(line1RocketOffset + 0 * line1RocketSpacing, baseLine, {
-				ShrapnelCount: 1,
+				ShrapnelCount: 25,
 				RocketRadius: 7, ShardRadius: 5, RocketExpansionRadius: 15, ExplosionExpansionRadius: 30, ExplosionShrapnelExpansionRadius: 70,
 				ShootDuration: 700, RocketExpansionDuration: 200, ExplosionExpansionDuration: 300, ExplosionShrapnelExpansionDuration: 2000,
 				PathShrapnelLifetime: 10000,
@@ -491,7 +491,8 @@
 				AnimationEndedAction: line1LetterEnded
 			}, debug, debugText);
 
-			rocketH.explodeToPathSection(50, targetPathH, 0, 1, 0, 3 * Math.PI / 2);
+			rocketH.explodeToPath(0, targetPathH);
+			//rocketH.explodeToPathSection(50, targetPathH, 0, 1, 0, 3 * Math.PI / 2);
 			//rocketa.explodeToPathSection(8050, targetPatha, 0, 1, 0, Math.PI);
 			//rocketp1.explodeToPathSection(2050, targetPathp1, 0, 1, 0, Math.PI);
 			//rocketp2.explodeToPathSection(6050, targetPathp2, 0, 1, 0, Math.PI);

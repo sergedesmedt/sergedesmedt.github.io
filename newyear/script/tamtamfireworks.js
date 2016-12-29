@@ -1,20 +1,29 @@
 function RegisterRaphael(raphaelPaper) {
+
+    raphaelPaper.customAttributes.shrapnel = function (g) {
+        return { shrapnel: g };
+    }
+
     raphaelPaper.customAttributes.guide = function (g) {
         return { guide: g };
     }
 
     raphaelPaper.customAttributes.along = function (percent) {
-        var guide = this.attr("guide");
-        var guideLength = guide.getTotalLength();
-        var currentPoint = guide.getPointAtLength(percent * guideLength);
-        //console.log("animate to point x:"+currentPoint.x+", y:"+currentPoint.y);
-        var animationTarget = {
-            cx: currentPoint.x,
-            cy: currentPoint.y,
-            opacity: 1 //(1 - percent)
-        }
+        //console.log("animate along:" + percent);
+        var shrapnel = this.attr("shrapnel");
+        shrapnel.forEach(function (e) {
+            var guide = e.attr("guide");
+            var guideLength = guide.getTotalLength();
+            var currentPoint = guide.getPointAtLength(percent * guideLength);
+            //console.log("animate to point x:" + currentPoint.x + ", y:" + currentPoint.y);
+            e.attr({ cx: currentPoint.x, cy: currentPoint.y });
+            //var animationTarget = {
+            //    cx: currentPoint.x,
+            //    cy: currentPoint.y
+            //}
+        });
 
-        return animationTarget;
+        //return animationTarget;
     }
 
 }
@@ -138,6 +147,7 @@ function Rocket(xPos, yPos, configuration, debug, debugText) {
 
         var explosionIndex = 0;
         explosionSet.forEach(function (e) {
+            var elem = e;
             var shrapnelAngle = explosionIndex * angleSpacing;
             var shrapnelRadius = explosionShrapnelExpansionRadius;
 
@@ -175,7 +185,6 @@ function Rocket(xPos, yPos, configuration, debug, debugText) {
 
             //console.log(pathString);
             var path = paper.path(pathString).attr({ "opacity": pathOpacity });
-            var elem = e;
             var duration = explosionShrapnelExpansionDuration * path.getTotalLength() / shrapnelRadius; // WTF was I thinking ????
             var pathSection = nonPathShrapnelLifetime / explosionShrapnelExpansionDuration;
 
@@ -208,6 +217,8 @@ function Rocket(xPos, yPos, configuration, debug, debugText) {
         var explosionIndex = 0;
         var pathStep = targetPath.getTotalLength() / count;
         explosionSet.forEach(function (e) {
+            var elem = e;
+
             var shrapnelAngle = explosionIndex * angleSpacing;
             var shrapnelRadius = explosionShrapnelExpansionRadius;
 
@@ -259,27 +270,25 @@ function Rocket(xPos, yPos, configuration, debug, debugText) {
 
             //console.log(pathString);
             var path = paper.path(pathString).attr({ "opacity": pathOpacity });
-            var elem = e;
-            var duration = explosionShrapnelExpansionDuration; // * path.getTotalLength() / shrapnelRadius;
-
-            // Animate along a path
-            // https://www.safaribooksonline.com/library/view/learning-raphael-js/9781782169161/ch05s05.html
-            // http://stackoverflow.com/questions/13295656/raphaeljs-2-1-animate-along-path
-            // https://github.com/DmitryBaranovskiy/raphaeljs.com/blob/master/gear.html
-            // https://dmitrybaranovskiy.github.io/raphael/reference.html#Paper.customAttributes
 
             e.attr({
-                guide: path,
-                along: 0
+                guide: path
             });
-
-            e.animate({
-                along: 1,
-                r: endRadius
-            }, duration, 'easeOut', fadeOutAnimation);
 
             explosionIndex++;
         });
+
+        circle.attr({
+            along: 0,
+            shrapnel: explosionSet
+        });
+
+        var duration = explosionShrapnelExpansionDuration; // * path.getTotalLength() / shrapnelRadius;
+
+        circle.animate({
+            along: 1
+        }, duration, 'easeOut', fadeOutAnimation);
+
     }
 
     function sectionPathTargetAnimation() {
@@ -372,15 +381,8 @@ function Rocket(xPos, yPos, configuration, debug, debugText) {
 
                 var path = paper.path(pathString).attr({ "opacity": pathOpacity });
 
-                // Animate along a path
-                // https://www.safaribooksonline.com/library/view/learning-raphael-js/9781782169161/ch05s05.html
-                // http://stackoverflow.com/questions/13295656/raphaeljs-2-1-animate-along-path
-                // https://github.com/DmitryBaranovskiy/raphaeljs.com/blob/master/gear.html
-                // https://dmitrybaranovskiy.github.io/raphael/reference.html#Paper.customAttributes
-
                 elem.attr({
-                    guide: path,
-                    along: 0
+                    guide: path
                 });
 
                 //debugTextSpan.html("[" + explosionIndex + "] animate elem");
