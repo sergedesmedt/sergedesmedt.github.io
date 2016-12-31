@@ -70,7 +70,7 @@
 		}
 
 		var textRasterSize = Math.min(25, Math.floor((documentWidth - 2*10)/19));
-		var textYPos = Math.min(600, documentHeight - textRasterSize * 7 - 50);
+		var textYPos = Math.min(600, documentHeight - textRasterSize * 7 - 60);
 		var textSpacing = textRasterSize;
 
 		var baseLine = documentHeight + 100; //Math.min(600, documentHeight);
@@ -90,8 +90,8 @@
 
 		var now = new Date();
 		//var newYear = new Date(2016, 11, 17, 21, 47, 45);
-		//var newYear = new Date(2017, 0, 1, 0, 0, 0);
-		var newYear = new Date(now.getTime() + 1000 * 30);
+		var newYear = new Date(2017, 0, 1, 0, 0, 0);
+		//var newYear = new Date(now.getTime() + 1000 * 30);
 
 		function pad2(num) {
 			var s = "0" + num;
