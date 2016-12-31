@@ -153,11 +153,15 @@ function Rocket(xPos, yPos, configuration, debug, debugText) {
 
         paper.setStart();
         for (i = 0; i < count; i++) {
-            var circle = paper.circle(xPosition, yPosition, shardRadius);
+            var shrapnelCircle = paper.circle(xPosition, yPosition, shardRadius);
         }
         var explosionSet = paper.setFinish();
 
         explosionSet.attr(explosionStyle);
+
+        console.log("remove circle");
+        circle.remove();
+        circle = null;
 
         var explosionIndex = 0;
         explosionSet.forEach(function (e) {
@@ -199,7 +203,7 @@ function Rocket(xPos, yPos, configuration, debug, debugText) {
 
             //console.log(pathString);
             var path = paper.path(pathString).attr({ "opacity": pathOpacity });
-            var duration = explosionShrapnelExpansionDuration * path.getTotalLength() / shrapnelRadius; // WTF was I thinking ????
+            var duration = explosionShrapnelExpansionDuration; // * path.getTotalLength() / shrapnelRadius; // WTF was I thinking ????
             var pathSection = nonPathShrapnelLifetime / explosionShrapnelExpansionDuration;
 
             e.attr({
@@ -222,11 +226,15 @@ function Rocket(xPos, yPos, configuration, debug, debugText) {
 
         paper.setStart();
         for (i = 0; i < count; i++) {
-            var circle = paper.circle(xPosition, yPosition, shardRadius);
+            var shrapnelCircle = paper.circle(xPosition, yPosition, shardRadius);
         }
         var explosionSet = paper.setFinish();
 
         explosionSet.attr(explosionStyle);
+
+        console.log("remove circle");
+        circle.remove();
+        circle = null;
 
         var explosionIndex = 0;
         var pathStep = targetPath.getTotalLength() / count;
@@ -315,13 +323,17 @@ function Rocket(xPos, yPos, configuration, debug, debugText) {
 
         paper.setStart();
         for (i = 0; i < count; i++) {
-            var circle = paper.circle(xPosition, yPosition, shardRadius);
+            var shrapnelCircle = paper.circle(xPosition, yPosition, shardRadius);
         }
         var explosionSet = paper.setFinish();
 
         explosionSet.attr(explosionStyle);
 
         var explosionIndex = 0;
+
+        console.log("remove circle");
+        circle.remove();
+        circle = null;
 
         // calculate the arc that will animate into the path
 

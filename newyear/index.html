@@ -2,7 +2,7 @@
 <html>
     <head>
 		<meta name="viewport" content="width=device-width">
-        <title>22 Trojka software: Nieuwjaar</title>
+        <title>33 Trojka software: Nieuwjaar</title>
         <style type="text/css">
             body{font-family: arial; background: #FFFFFF}
 			.calcTextSizeContainer {
@@ -17,10 +17,11 @@
         </style>
 		<script type="text/javascript" src="script/raphael.min.js" ></script>
 		<script type="text/javascript" src="script/jquery-3.1.1.min.js" ></script>
-		<script type="text/javascript" src="script/tamtamfireworks.js?0022" ></script>
+		<script type="text/javascript" src="script/jquery-color.js"></script>
+		<script type="text/javascript" src="script/tamtamfireworks.js?0033" ></script>
     </head>
     <body id="theBody">
-		<div >
+		<div id="socialSharing">
 			<table>
 				<tr></tr>
 			</table>
@@ -210,25 +211,6 @@
         var verticalSpacing = parseFloat(textHeight);
         var conversationMargin = 10;
 		
-        var conversationStep = 0;
-        var t11 = paper.text(conversationMargin, textPositionY + (conversationStep * verticalSpacing), "Wat gebeurt er?").attr({ "font-size": textHeight, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' }); conversationStep++;
-        var t21 = paper.text(offsetWidth - conversationMargin, textPositionY + (conversationStep * verticalSpacing), "Vuurwerk").attr({ "font-size": textHeight, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end" }).attr({ fill: '#FFFFFF' }); conversationStep++;
-        var t12 = paper.text(conversationMargin, textPositionY + (conversationStep * verticalSpacing), "Wanneer?").attr({ "font-size": textHeight, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' }); conversationStep++;
-        var t22 = paper.text(offsetWidth - conversationMargin, textPositionY + (conversationStep * verticalSpacing), prettyMessage).attr({ "font-size": textHeight, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end" }).attr({ fill: '#FFFFFF' }); conversationStep++;
-
-        var followUpLine1 = "Nog zo lang?";
-        var followUpLine2 = "Yep, kom dan 's terug.";
-        var followUpLine3 = "Doe ik";
-        var mintuesXAlternative = 5 * 60 * 1000;
-        if (mintuesXAlternative > (newYear.getTime() - now.getTime())) {
-        	followUpLine1 = "Spannend";
-        	followUpLine2 = "Best blijven kijken";
-        	followUpLine3 = "Doe ik";
-        }
-
-        var t13 = paper.text(conversationMargin, textPositionY + (conversationStep * verticalSpacing), followUpLine1).attr({ "font-size": textHeight, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' }); conversationStep++;
-        var t24 = paper.text(offsetWidth - conversationMargin, textPositionY + (conversationStep * verticalSpacing), followUpLine2).attr({ "font-size": textHeight, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end" }).attr({ fill: '#FFFFFF' }); conversationStep++;
-        var t14 = paper.text(conversationMargin, textPositionY + (conversationStep * verticalSpacing), followUpLine3).attr({ "font-size": textHeight, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' }); conversationStep++;
 
         var fadeDuration = 650;
         var fixDuration = 1500;
@@ -258,7 +240,14 @@
 
 		var secondsCountDown = 4;
 
+		var timerTextRemoved = 0;
+		var removeTimerText = function () {
+
+		};
+
 		var timeFunction = function () {
+			removeConversation();
+
 			var fullPrettyMessage = prettyFullTimespan(new Date(), newYear);
 
 			var prettyTimeElem = paper.getById('timeText');
@@ -268,6 +257,15 @@
 				prettyTimeElem.id = 'timeText';
 			}
 			prettyTimeElem.attr({ text: fullPrettyMessage });
+
+			removeTimerText = function () {
+				if(timerTextRemoved == 1) {
+					return;
+				}
+
+				timerTextRemoved = 1;
+				prettyTimeElem.remove();
+			};
 
 			if (secondsCountDown * 1000 > (newYear.getTime() - new Date().getTime())) {
 				window.clearInterval(timerId);
@@ -286,6 +284,7 @@
 		var finalCountDownIconArray = new Array();
 		var finalCountDownTextArray = new Array();
 		var initFinalCountDown = function (finalCountDown) {
+			removeTimerText();
 			var trojkaOuterCircle = paper.getById('trojkaOuterCircle');
 			var matrix = trojkaOuterCircle.matrix;
 			var scale = matrix.split().scalex;
@@ -329,7 +328,7 @@
 			if (finalCountDownIconArray.length == 0)
 			{
 				window.clearInterval(finalCountDownTimerId);
-				startLine1();
+				startFireworks();
 				return;
 			}
 
@@ -356,8 +355,33 @@
 			this.animate(fadeOutAndStartCountDownAnimation.delay(fixDuration));
 		});
 		
+		var conversationRemoved = 0;
+		var removeConversation = function () {
+
+		};
 		
 		var conversation = function() {
+
+			var conversationStep = 0;
+			var t11 = paper.text(conversationMargin, textPositionY + (conversationStep * verticalSpacing), "Wat gebeurt er?").attr({ "font-size": textHeight, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' }); conversationStep++;
+			var t21 = paper.text(offsetWidth - conversationMargin, textPositionY + (conversationStep * verticalSpacing), "Vuurwerk").attr({ "font-size": textHeight, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end" }).attr({ fill: '#FFFFFF' }); conversationStep++;
+			var t12 = paper.text(conversationMargin, textPositionY + (conversationStep * verticalSpacing), "Wanneer?").attr({ "font-size": textHeight, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' }); conversationStep++;
+			var t22 = paper.text(offsetWidth - conversationMargin, textPositionY + (conversationStep * verticalSpacing), prettyMessage).attr({ "font-size": textHeight, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end" }).attr({ fill: '#FFFFFF' }); conversationStep++;
+
+			var followUpLine1 = "Nog zo lang?";
+			var followUpLine2 = "Yep, kom dan 's terug.";
+			var followUpLine3 = "Doe ik";
+			var mintuesXAlternative = 5 * 60 * 1000;
+			if (mintuesXAlternative > (newYear.getTime() - now.getTime())) {
+				followUpLine1 = "Spannend";
+				followUpLine2 = "Best blijven kijken";
+				followUpLine3 = "Doe ik";
+			}
+
+			var t13 = paper.text(conversationMargin, textPositionY + (conversationStep * verticalSpacing), followUpLine1).attr({ "font-size": textHeight, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' }); conversationStep++;
+			var t24 = paper.text(offsetWidth - conversationMargin, textPositionY + (conversationStep * verticalSpacing), followUpLine2).attr({ "font-size": textHeight, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end" }).attr({ fill: '#FFFFFF' }); conversationStep++;
+			var t14 = paper.text(conversationMargin, textPositionY + (conversationStep * verticalSpacing), followUpLine3).attr({ "font-size": textHeight, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' }); conversationStep++;
+
 
 			var step = 0;
 			t11.animate(fadeInOutAnimation.delay(step * cycleDuration)); step++;
@@ -369,9 +393,45 @@
 			t24.animate(fadeInOutAnimation.delay(step * cycleDuration)); step++;
 			t14.animate(fadeInOutAndStartCountDownAnimation.delay(step * cycleDuration)); step++;
 
+			removeConversation = function () {
+				if (conversationRemoved == 1) {
+					return;
+				}
+
+				conversationRemoved == 1;
+
+				t11.remove();
+				t21.remove();
+				t12.remove();
+				t22.remove();
+				//t23.remove();
+				t13.remove();
+				t24.remove();
+				t14.remove();
+			}
+
 		}
 
+		var conversationTooLate = function() {
+			var conversationStep = 0;
+			var t30 = paper.text(offsetWidth / 2, textPositionY + (conversationStep * verticalSpacing), "Vuurwerk gemist?").attr({ "font-size": textHeight, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "middle" }).attr({ fill: '#FFFFFF' }); conversationStep++;
+			var t31 = paper.text(offsetWidth / 2, textPositionY + (conversationStep * verticalSpacing), "Bekijk het opnieuw").attr({ "font-size": textHeight, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "middle" }).attr({ fill: '#FFFFFF' }); conversationStep++;
 
+			var step = 0;
+			t30.animate(fadeInOutAnimation.delay(step * cycleDuration)); step++;
+			t31.animate(fadeInOutAndStartCountDownAnimation.delay(step * cycleDuration)); step++;
+
+			removeConversation = function () {
+				if (conversationRemoved == 1) {
+					return;
+				}
+
+				conversationRemoved == 1;
+
+				t30.remove();
+				t31.remove();
+			}
+		}
 
 
 		//var circle1 = paper.circle(100, minHeight, 5).attr({
@@ -385,10 +445,73 @@
 		//	"stroke-width": 2
 		//});
 
+		var startFireworks = function () {
+			//$('body').css('background', 'black');
+
+			$("#socialSharing").remove();
+
+			backgroundAnimationDuration = 2000;
+
+			jQuery('body').animate({
+				backgroundColor: "black"
+			}, backgroundAnimationDuration);
+
+			startRockets();
+		}
+
+		var startRockets = function () {
+			var startRocketMargin = 150;
+			var startRocketSpacing = (documentWidth - 2 * startRocketMargin) / (3 - 1);
+			var startRocketOffset = startRocketMargin;
+			var startEndedCount = 0;
+
+			var startEnded = function () {
+				startEndedCount++;
+				//console.log("Animating ended. " + line1LetterEndedCount + " of " + "Happy".length);
+				if (startEndedCount == 3) {
+					//console.log("start line 2");
+					startLine1();
+				}
+			};
+
+			var rockets1 = new Rocket(startRocketOffset + 2 * startRocketSpacing, baseLine, {
+				ShrapnelCount: 25,
+				RocketRadius: 7, ShardRadius: 5, RocketExpansionRadius: 15, ExplosionExpansionRadius: 30, ExplosionShrapnelExpansionRadius: 70,
+				ShootDuration: 700, RocketExpansionDuration: 200, ExplosionExpansionDuration: 300, ExplosionShrapnelExpansionDuration: 2000,
+				PathShrapnelLifetime: 8600,
+				NonPathShrapnelLifetime: 1500,
+				PathShrapnelFadeOutDuration: 1000,
+				ShootingHeight: minHeight + Math.floor(Math.random() * (maxHeight - minHeight)),
+				AnimationEndedAction: startEnded
+			}, debug, debugText);
+			var rockets2 = new Rocket(startRocketOffset + 0 * startRocketSpacing, baseLine, {
+				ShrapnelCount: 25,
+				RocketRadius: 7, ShardRadius: 5, RocketExpansionRadius: 15, ExplosionExpansionRadius: 30, ExplosionShrapnelExpansionRadius: 70,
+				ShootDuration: 700, RocketExpansionDuration: 200, ExplosionExpansionDuration: 300, ExplosionShrapnelExpansionDuration: 2000,
+				PathShrapnelLifetime: 2000,
+				NonPathShrapnelLifetime: 1500,
+				PathShrapnelFadeOutDuration: 1000,
+				ShootingHeight: minHeight + Math.floor(Math.random() * (maxHeight - minHeight)),
+				AnimationEndedAction: startEnded
+			}, debug, debugText);
+			var rockets3 = new Rocket(startRocketOffset + 1 * startRocketSpacing, baseLine, {
+				ShrapnelCount: 25,
+				RocketRadius: 7, ShardRadius: 5, RocketExpansionRadius: 15, ExplosionExpansionRadius: 30, ExplosionShrapnelExpansionRadius: 70,
+				ShootDuration: 750, RocketExpansionDuration: 200, ExplosionExpansionDuration: 300, ExplosionShrapnelExpansionDuration: 2000,
+				PathShrapnelLifetime: 5300,
+				NonPathShrapnelLifetime: 1500,
+				PathShrapnelFadeOutDuration: 1000,
+				ShootingHeight: minHeight + Math.floor(Math.random() * (maxHeight - minHeight)),
+				AnimationEndedAction: startEnded
+			}, debug, debugText);
+
+			rockets1.explode(backgroundAnimationDuration);
+			rockets2.explode(backgroundAnimationDuration + 3300);
+			rockets3.explode(backgroundAnimationDuration + 6600);
+		}
 
 
 		var startLine1 = function () {
-
 			var textStartPosXHappy = (documentWidth / 2) - (((15 * textRasterSize) + (4 * textSpacing)) / 2);
 			var textStartPosYHappy = textYPos;
 
@@ -470,9 +593,9 @@
 
 			var line1LetterEnded = function () {
 				line1LetterEndedCount++;
-				console.log("Animating H ended. " + line1LetterEndedCount + " of " + "Happy".length);
+				//console.log("Animating ended. " + line1LetterEndedCount + " of " + "Happy".length);
 				if (line1LetterEndedCount == "Happy".length) {
-					console.log("start line 2");
+					//console.log("start line 2");
 					startLine2();
 				}
 			};
@@ -651,7 +774,9 @@
 			}
 		}
 		else {
-			startLine1();
+			newYear = new Date(now.getTime() + 1000 * 20);
+			conversationTooLate();
+			//timerId = window.setInterval(timeFunction, 1000);
 		}
 
     </script>
